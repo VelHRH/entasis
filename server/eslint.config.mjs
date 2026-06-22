@@ -120,9 +120,9 @@ export default [
           config: {
             indentWidth: 2,
             lineWidth: 120,
-            semiColons: "asi",
+            semiColons: "prefer",
             quoteStyle: "alwaysDouble",
-            trailingCommas: "never",
+            trailingCommas: "all",
             operatorPosition: "maintain",
             "arrowFunction.useParentheses": "force",
           },
