@@ -6,7 +6,7 @@ import {
   HttpServer,
 } from "@effect/platform";
 import { NodeHttpServer, NodeRuntime } from "@effect/platform-node";
-import { Effect, Layer, Schema } from "effect";
+import { Context, Effect, Layer, Schema } from "effect";
 import { createServer } from "node:http";
 
 class BookGroup extends HttpApiGroup.make("book")
