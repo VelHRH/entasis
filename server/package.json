@@ -28,14 +28,17 @@
     "lint-fix": "pnpm lint --fix",
     "test": "vitest",
     "coverage": "vitest --coverage",
-    "preinstall": "only-allow pnpm"
+    "preinstall": "only-allow pnpm",
+    "migrate": "tsx src/db/scripts/migrator.ts",
+    "reset": "tsx src/db/scripts/reset.ts"
   },
   "dependencies": {
     "@effect/platform": "^0.96.2",
     "@effect/platform-node": "^0.107.0",
     "@effect/sql": "^0.51.1",
     "@effect/sql-pg": "^0.52.1",
-    "effect": "^3.17.7"
+    "effect": "^3.17.7",
+    "pg": "^8.22.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.24.8",
@@ -50,6 +53,7 @@
     "@eslint/eslintrc": "3.1.0",
     "@eslint/js": "9.10.0",
     "@types/node": "^22.5.2",
+    "@types/pg": "^8.20.0",
     "@typescript-eslint/eslint-plugin": "^8.4.0",
     "@typescript-eslint/parser": "^8.4.0",
     "babel-plugin-annotate-pure-calls": "^0.5.0",

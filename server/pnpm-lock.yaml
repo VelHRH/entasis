@@ -23,6 +23,9 @@ importers:
       effect:
         specifier: ^3.17.7
         version: 3.21.4
+      pg:
+        specifier: ^8.22.0
+        version: 8.22.0
     devDependencies:
       '@babel/cli':
         specifier: ^7.24.8
@@ -60,6 +63,9 @@ importers:
       '@types/node':
         specifier: ^22.5.2
         version: 22.19.21
+      '@types/pg':
+        specifier: ^8.20.0
+        version: 8.20.0
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.4.0
         version: 8.61.1(@typescript-eslint/parser@8.61.1(eslint@9.39.4)(typescript@5.9.3))(eslint@9.39.4)(typescript@5.9.3)
@@ -1041,6 +1047,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/pg@8.20.0':
+    resolution: {integrity: sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==}
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
@@ -3737,6 +3746,12 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/normalize-package-data@2.4.4': {}
+
+  '@types/pg@8.20.0':
+    dependencies:
+      '@types/node': 22.19.21
+      pg-protocol: 1.15.0
+      pg-types: 2.2.0
 
   '@types/stack-utils@2.0.3': {}
 
