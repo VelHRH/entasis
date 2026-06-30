@@ -15,7 +15,7 @@ export const RoomsRepoLive = Layer.effect(
     const sql = yield* SqlClient.SqlClient;
 
     const findAll = SqlSchema.findAll({
-      Result: Room,
+      Result: Room, // TODO: Effect schema is not in sync with the database schema, since we are not using ORM. So we will need some integration tests to ensure that the schema is correct.
       Request: Schema.Void,
       execute: () => sql`
         SELECT
