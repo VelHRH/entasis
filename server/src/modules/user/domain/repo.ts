@@ -11,7 +11,7 @@ export const CreateUserInput = UserWithCredentials.pipe(
 export type CreateUserInput = typeof CreateUserInput.Type;
 
 export const CreateSessionInput = Schema.Struct({
-  token: Schema.String,
+  tokenHash: Schema.String,
   userId: User.fields.id,
   expiresAt: Schema.DateTimeUtc,
 });
@@ -33,7 +33,9 @@ export class SessionsRepo extends Context.Tag("SessionsRepo")<
   SessionsRepo,
   {
     readonly create: (input: CreateSessionInput) => Effect.Effect<void>;
-    readonly findUser: (token: string) => Effect.Effect<Option.Option<User>>;
+    readonly findUser: (
+      tokenHash: string,
+    ) => Effect.Effect<Option.Option<User>>;
     readonly deleteAllForUser: (userId: UserId) => Effect.Effect<void>;
   }
 >() {}

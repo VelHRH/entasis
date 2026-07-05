@@ -1,4 +1,4 @@
-\restrict owYuxBeBKb1UYdDOt5h8JkSKC6tR8VsJhZSntb2h0fr7uLhO3ApqyiuEN48YvXH
+\restrict vivQqHYP2H9HiPLFDLMNlkknMR2VdHBPOlFAscUNlkGSTAsytB4X4llvjLRnBez
 
 CREATE FUNCTION public.set_updated_at() RETURNS trigger
     LANGUAGE plpgsql
@@ -24,7 +24,7 @@ CREATE TABLE public.rooms (
 );
 
 CREATE TABLE public.sessions (
-    token text NOT NULL,
+    token_hash text NOT NULL,
     user_id uuid NOT NULL,
     expires_at timestamp with time zone NOT NULL,
     created_at timestamp with time zone DEFAULT now() NOT NULL
@@ -45,7 +45,7 @@ ALTER TABLE ONLY public.rooms
     ADD CONSTRAINT rooms_pkey PRIMARY KEY (id);
 
 ALTER TABLE ONLY public.sessions
-    ADD CONSTRAINT sessions_pkey PRIMARY KEY (token);
+    ADD CONSTRAINT sessions_pkey PRIMARY KEY (token_hash);
 
 ALTER TABLE ONLY public.users
     ADD CONSTRAINT users_email_key UNIQUE (email);
@@ -62,11 +62,12 @@ CREATE TRIGGER users_set_updated_at BEFORE UPDATE ON public.users FOR EACH ROW E
 ALTER TABLE ONLY public.sessions
     ADD CONSTRAINT sessions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id) ON DELETE CASCADE;
 
-\unrestrict owYuxBeBKb1UYdDOt5h8JkSKC6tR8VsJhZSntb2h0fr7uLhO3ApqyiuEN48YvXH
+\unrestrict vivQqHYP2H9HiPLFDLMNlkknMR2VdHBPOlFAscUNlkGSTAsytB4X4llvjLRnBez
 
-\restrict LiwT07qg3cDQebhW0l25bXKcTIJmfpfTo3zivAe99dWpo7i5puktYSeZxwbNEB7
+\restrict dI2K7Vgsyib92UDbihja8ImfgxBm1x6x0e24prco6jVYKV8SE8deUXsJSQlXVRY
 
 INSERT INTO public.effect_sql_migrations (migration_id, created_at, name) VALUES (1, '2026-06-23 19:52:12.150441+00', 'create_rooms_table');
 INSERT INTO public.effect_sql_migrations (migration_id, created_at, name) VALUES (2, '2026-07-05 14:51:19.102083+00', 'create_users_and_sessions_tables');
+INSERT INTO public.effect_sql_migrations (migration_id, created_at, name) VALUES (3, '2026-07-05 17:03:50.10131+00', 'hash_session_tokens');
 
-\unrestrict LiwT07qg3cDQebhW0l25bXKcTIJmfpfTo3zivAe99dWpo7i5puktYSeZxwbNEB7
+\unrestrict dI2K7Vgsyib92UDbihja8ImfgxBm1x6x0e24prco6jVYKV8SE8deUXsJSQlXVRY

@@ -3,7 +3,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
-import { randomBytes, scrypt, timingSafeEqual } from "node:crypto";
+import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
 import {
   AuthResult,
   type CredentialsPayload,
@@ -18,6 +18,10 @@ import { AuthService, SESSION_TTL } from "../domain/service.js";
 import { SessionsRepoLive, UsersRepoLive } from "./repository.js";
 
 const KEY_LENGTH = 64;
+
+// Session tokens are 256-bit random values, so a fast unsalted hash is enough
+const hashToken = (token: string) =>
+  createHash("sha256").update(token).digest("hex");
 
 // Stored as "<salt>:<derived key>", both hex-encoded.
 const hashPassword = (password: string) =>
@@ -71,7 +75,7 @@ export const AuthServiceLive = Layer.effect(AuthService)(
         const token = randomBytes(32).toString("base64url");
         const now = yield* DateTime.now;
         yield* sessionsRepo.create({
-          token,
+          tokenHash: hashToken(token),
           userId: user.id,
           expiresAt: DateTime.addDuration(now, SESSION_TTL),
         });
@@ -108,7 +112,7 @@ export const AuthServiceLive = Layer.effect(AuthService)(
       });
 
     const identify = (token: Redacted.Redacted<string>) =>
-      sessionsRepo.findUser(Redacted.value(token)).pipe(
+      sessionsRepo.findUser(hashToken(Redacted.value(token))).pipe(
         Effect.flatMap(
           Option.match({
             onNone: () => new UnauthorizedError(),

@@ -83,7 +83,7 @@ export const SessionsRepoLive = Layer.effect(
     const findUser = SqlSchema.findOne({
       Result: User,
       Request: Schema.String,
-      execute: (token) => sql`
+      execute: (tokenHash) => sql`
         SELECT
           users.id,
           users.email,
@@ -93,7 +93,7 @@ export const SessionsRepoLive = Layer.effect(
           sessions
           INNER JOIN users ON users.id = sessions.user_id
         WHERE
-          sessions.token = ${token}
+          sessions.token_hash = ${tokenHash}
           AND sessions.expires_at > now()
       `,
     });
