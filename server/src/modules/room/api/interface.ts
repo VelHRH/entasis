@@ -3,6 +3,7 @@ import * as Schema from "effect/Schema";
 import { Room, RoomId } from "../domain/schema.js";
 import { RoomNotFoundError } from "../domain/errors.js";
 import { UpsertRoomPayload } from "../domain/dto/upsert.js";
+import { Authorization } from "src/modules/user/api/interface.js";
 
 export class RoomsGroup extends HttpApiGroup.make("rooms")
   .add(HttpApiEndpoint.get("list", "/").addSuccess(Schema.Array(Room)))
@@ -22,4 +23,5 @@ export class RoomsGroup extends HttpApiGroup.make("rooms")
       .addSuccess(Schema.Void)
       .addError(RoomNotFoundError),
   )
+  .middleware(Authorization)
   .prefix("/room") {}
