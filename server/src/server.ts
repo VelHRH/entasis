@@ -11,6 +11,7 @@ import {
 import { Config, Layer } from "effect";
 import { createServer } from "node:http";
 import { Api } from "./api.js";
+import { ChatModuleLive, ChatWsModuleLive } from "./modules/chat/index.js";
 import { RoomsModuleLive } from "./modules/room/index.js";
 import {
   AuthorizationModuleLive,
@@ -19,7 +20,7 @@ import {
 import * as path from "node:path";
 
 const ApiLive = HttpLayerRouter.addHttpApi(Api).pipe(
-  Layer.provide([RoomsModuleLive, UsersModuleLive]),
+  Layer.provide([RoomsModuleLive, UsersModuleLive, ChatModuleLive]),
   Layer.provide(AuthorizationModuleLive),
 );
 
@@ -27,7 +28,7 @@ const HealthRouter = HttpLayerRouter.use((router) =>
   router.add("GET", "/health", HttpServerResponse.text("OK")),
 );
 
-const AllRoutes = Layer.mergeAll(ApiLive, HealthRouter).pipe(
+const AllRoutes = Layer.mergeAll(ApiLive, HealthRouter, ChatWsModuleLive).pipe(
   Layer.provide(
     HttpLayerRouter.cors({
       allowedOrigins: ["*"],

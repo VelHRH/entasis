@@ -7,11 +7,23 @@ import { Authorization } from "src/modules/user/api/interface.js";
 
 export class RoomsGroup extends HttpApiGroup.make("rooms")
   .add(HttpApiEndpoint.get("list", "/").addSuccess(Schema.Array(Room)))
+  // TODO: once roles exist, creating/updating/deleting rooms via API must be
+  // admin-only; regular users only join rooms and chat.
   .add(
     HttpApiEndpoint.put("upsert", "/")
       .addSuccess(Room)
       .addError(RoomNotFoundError)
       .setPayload(UpsertRoomPayload),
+  )
+  .add(
+    HttpApiEndpoint.post("join", "/join")
+      .setPayload(
+        Schema.Struct({
+          id: RoomId,
+        }),
+      )
+      .addSuccess(Schema.Void)
+      .addError(RoomNotFoundError),
   )
   .add(
     HttpApiEndpoint.del("delete", "/")

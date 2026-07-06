@@ -1,5 +1,6 @@
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import type { UserId } from "src/modules/user/domain/schema.js";
 import { RoomsService } from "../domain/service.js";
 import { RoomsRepo } from "../domain/repo.js";
 import type { UpsertRoomPayload } from "../domain/dto/upsert.js";
@@ -27,10 +28,14 @@ export const RoomsServiceLive = Layer.effect(RoomsService)(
 
     const deleteRoom = (id: RoomId) => repo.delete(id);
 
+    const join = (roomId: RoomId, userId: UserId) =>
+      repo.addMember({ roomId, userId });
+
     return {
       list,
       upsert,
       delete: deleteRoom,
+      join,
     };
   }),
 ).pipe(Layer.provide(RoomsRepoLive));

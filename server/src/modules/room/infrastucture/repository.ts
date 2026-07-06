@@ -1,3 +1,4 @@
+import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlClient from "@effect/sql/SqlClient";
 import * as SqlSchema from "@effect/sql/SqlSchema";
 import * as Effect from "effect/Effect";
@@ -5,9 +6,18 @@ import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
+import { UserId } from "src/modules/user/domain/schema.js";
 import { RoomNotFoundError } from "../domain/errors.js";
-import { CreateRoomInput, RoomsRepo, UpdateRoomInput } from "../domain/repo.js";
+import {
+  AddRoomMemberInput,
+  CreateRoomInput,
+  RoomsRepo,
+  UpdateRoomInput,
+} from "../domain/repo.js";
 import { Room, RoomId } from "../domain/schema.js";
+
+const isForeignKeyViolation = (error: SqlError.SqlError) =>
+  (error.cause as { code?: string } | undefined)?.code === "23503";
 
 export const RoomsRepoLive = Layer.effect(
   RoomsRepo,
@@ -50,6 +60,32 @@ export const RoomsRepoLive = Layer.effect(
       `,
     });
 
+    const addMember = SqlSchema.void({
+      Request: AddRoomMemberInput,
+      execute: (request) => sql`
+        INSERT INTO
+          room_members ${sql.insert(request)}
+        ON CONFLICT DO NOTHING
+      `,
+    });
+
+    const membersAmong = SqlSchema.findAll({
+      Result: Schema.Struct({ userId: UserId }),
+      Request: Schema.Struct({
+        roomId: RoomId,
+        userIds: Schema.Array(UserId),
+      }),
+      execute: (request) => sql`
+        SELECT
+          user_id
+        FROM
+          room_members
+        WHERE
+          room_id = ${request.roomId}
+          AND ${sql.in("user_id", request.userIds)}
+      `,
+    });
+
     const del = SqlSchema.single({
       Request: RoomId,
       Result: Schema.Unknown,
@@ -83,6 +119,23 @@ export const RoomsRepoLive = Layer.effect(
           }),
         ),
       create: flow(create, Effect.orDie),
+      addMember: (request: AddRoomMemberInput) =>
+        addMember(request).pipe(
+          Effect.catchTags({
+            // The user always exists (comes from the session), so a FK
+            // violation can only mean the room is gone.
+            SqlError: (error) =>
+              isForeignKeyViolation(error)
+                ? new RoomNotFoundError({ id: request.roomId })
+                : Effect.die(error),
+            ParseError: Effect.die,
+          }),
+        ),
+      membersAmong: (roomId: RoomId, userIds: ReadonlyArray<UserId>) =>
+        membersAmong({ roomId, userIds }).pipe(
+          Effect.map((rows) => rows.map((row) => row.userId)),
+          Effect.orDie,
+        ),
     };
   }),
 ).pipe(Layer.provide(PgLive));
