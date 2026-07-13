@@ -3,9 +3,6 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.14.0",
-  "engines": {
-    "npm": "Use pnpm instead of npm"
-  },
   "scripts": {
     "preinstall": "only-allow pnpm",
     "build": "pnpm -r run build",

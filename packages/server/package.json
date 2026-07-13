@@ -2,16 +2,13 @@
   "name": "@entasis/server",
   "version": "0.0.0",
   "type": "module",
+  "private": true,
   "license": "MIT",
   "description": "Entasis backend (Effect TS)",
   "repository": {
     "type": "git",
     "url": "https://github.com/VelHRH/entasis",
     "directory": "packages/server"
-  },
-  "publishConfig": {
-    "access": "public",
-    "directory": "dist"
   },
   "scripts": {
     "codegen": "build-utils prepare-v2",
