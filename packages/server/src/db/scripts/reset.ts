@@ -3,7 +3,7 @@ import { Effect, Schema } from "effect";
 import { PgLive } from "../pg-client.js";
 
 Effect.runPromise(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
     const schemaList = ["public"];
@@ -14,7 +14,8 @@ Effect.runPromise(
         typname: Schema.String,
         schemaname: Schema.String,
       }),
-      execute: () => sql`
+      execute: () =>
+        sql`
       SELECT
         t.typname,
         n.nspname AS schemaname
@@ -33,7 +34,8 @@ Effect.runPromise(
         tableName: Schema.String,
         schemaName: Schema.String,
       }),
-      execute: () => sql`
+      execute: () =>
+        sql`
       SELECT
         table_name,
         table_schema AS schema_name
@@ -52,7 +54,8 @@ Effect.runPromise(
         functionName: Schema.String,
         identityArguments: Schema.String,
       }),
-      execute: () => sql`
+      execute: () =>
+        sql`
       SELECT
         n.nspname AS schema_name,
         p.proname AS function_name,
@@ -79,7 +82,7 @@ Effect.runPromise(
     const functions = yield* getFunctions();
 
     yield* sql.withTransaction(
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         console.log(
           `🗑️ Starting database reset for schemas: ${schemaList.join(", ")}`,
         );

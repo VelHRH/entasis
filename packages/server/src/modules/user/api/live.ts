@@ -15,7 +15,7 @@ const cookieOptions = {
 
 export const AuthorizationLive = Layer.effect(
   Authorization,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const auth = yield* AuthService;
 
     return {
@@ -26,7 +26,7 @@ export const AuthorizationLive = Layer.effect(
 );
 
 export const UsersGroupLive = HttpApiBuilder.group(Api, "users", (handlers) =>
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const auth = yield* AuthService;
 
     const startSession = (headers: {
@@ -34,32 +34,26 @@ export const UsersGroupLive = HttpApiBuilder.group(Api, "users", (handlers) =>
     }) =>
       headers["x-client"] === "mobile"
         ? (result: AuthResult) =>
-            Effect.succeed(
-              new AuthResponse({ user: result.user, token: result.token }),
-            )
+          Effect.succeed(
+            new AuthResponse({ user: result.user, token: result.token }),
+          )
         : (result: AuthResult) =>
-            HttpApiBuilder.securitySetCookie(SessionCookie, result.token, {
-              ...cookieOptions,
-              maxAge: SESSION_TTL,
-            }).pipe(Effect.as(new AuthResponse({ user: result.user })));
+          HttpApiBuilder.securitySetCookie(SessionCookie, result.token, {
+            ...cookieOptions,
+            maxAge: SESSION_TTL,
+          }).pipe(Effect.as(new AuthResponse({ user: result.user })));
 
     return handlers
-      .handle("signUp", ({ headers, payload }) =>
-        Effect.flatMap(auth.signUp(payload), startSession(headers)),
-      )
-      .handle("login", ({ headers, payload }) =>
-        Effect.flatMap(auth.login(payload), startSession(headers)),
-      )
+      .handle("signUp", ({ headers, payload }) => Effect.flatMap(auth.signUp(payload), startSession(headers)))
+      .handle("login", ({ headers, payload }) => Effect.flatMap(auth.login(payload), startSession(headers)))
       .handle("me", () => CurrentUser)
       .handle("logout", () =>
-        Effect.gen(function* () {
+        Effect.gen(function*() {
           const user = yield* CurrentUser;
           yield* auth.logout(user.id);
           yield* HttpApiBuilder.securitySetCookie(SessionCookie, "", {
             ...cookieOptions,
             maxAge: 0,
           });
-        }),
-      );
-  }),
-);
+        }));
+  }));

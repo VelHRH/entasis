@@ -6,7 +6,7 @@ import { fileURLToPath } from "node:url";
 import { PgLive } from "../pg-client.js";
 
 NodeRuntime.runMain(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const migrations = yield* PgMigrator.run({
       loader: PgMigrator.fromFileSystem(
         path.join(

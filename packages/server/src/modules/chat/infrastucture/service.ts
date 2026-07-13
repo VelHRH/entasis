@@ -7,21 +7,21 @@ import type { UserId } from "src/modules/user/domain/schema.js";
 import type { OpenChatPayload } from "../domain/dto/open-chat.js";
 import { MessageReceived, type SendMessage } from "../domain/dto/protocol.js";
 import { ChatNotFoundError, NotRoomMemberError } from "../domain/errors.js";
-import { ChatsRepo, MessagesRepo } from "../domain/repo.js";
 import { ConnectionRegistry } from "../domain/registry.js";
+import { ChatsRepo, MessagesRepo } from "../domain/repo.js";
 import type { ChatId } from "../domain/schema.js";
 import { ChatService } from "../domain/service.js";
 import { ChatsRepoLive, MessagesRepoLive } from "./repository.js";
 
 export const ChatServiceLive = Layer.effect(ChatService)(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const chatsRepo = yield* ChatsRepo;
     const messagesRepo = yield* MessagesRepo;
     const roomsRepo = yield* RoomsRepo;
     const registry = yield* ConnectionRegistry;
 
     const openChat = (userId: UserId, payload: OpenChatPayload) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const members = yield* roomsRepo.membersAmong(payload.roomId, [
           userId,
           payload.partnerId,
@@ -45,7 +45,7 @@ export const ChatServiceLive = Layer.effect(ChatService)(
 
     // Check if the user has rights in the chat
     const requireMembers = (chatId: ChatId, userId: UserId) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const members = yield* chatsRepo.membersOf(chatId);
         if (!members.includes(userId)) {
           return yield* new ChatNotFoundError({ id: chatId });
@@ -59,7 +59,7 @@ export const ChatServiceLive = Layer.effect(ChatService)(
       );
 
     const sendMessage = (userId: UserId, input: SendMessage) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const members = yield* requireMembers(input.chatId, userId);
         const message = yield* messagesRepo.create({
           chatId: input.chatId,

@@ -19,4 +19,5 @@ export class ChatsGroup extends HttpApiGroup.make("chats")
       .addError(ChatNotFoundError),
   )
   .middleware(Authorization)
-  .prefix("/chat") {}
+  .prefix("/chat")
+{}

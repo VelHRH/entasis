@@ -7,17 +7,12 @@ import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
 import { RoomId } from "src/modules/room/domain/schema.js";
 import { UserId } from "src/modules/user/domain/schema.js";
-import {
-  ChatsRepo,
-  CreateMessageInput,
-  FindDirectChatInput,
-  MessagesRepo,
-} from "../domain/repo.js";
+import { ChatsRepo, CreateMessageInput, FindDirectChatInput, MessagesRepo } from "../domain/repo.js";
 import { Chat, ChatId, Message } from "../domain/schema.js";
 
 export const ChatsRepoLive = Layer.effect(
   ChatsRepo,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
     // Direct chats always have exactly two members, so matching both
@@ -25,7 +20,8 @@ export const ChatsRepoLive = Layer.effect(
     const findDirect = SqlSchema.findOne({
       Result: Chat,
       Request: FindDirectChatInput,
-      execute: (request) => sql`
+      execute: (request) =>
+        sql`
         SELECT
           chats.*
         FROM
@@ -44,7 +40,8 @@ export const ChatsRepoLive = Layer.effect(
     const insertChat = SqlSchema.single({
       Result: Chat,
       Request: RoomId,
-      execute: (roomId) => sql`
+      execute: (roomId) =>
+        sql`
         INSERT INTO
           chats (room_id)
         VALUES
@@ -57,7 +54,8 @@ export const ChatsRepoLive = Layer.effect(
     const membersOf = SqlSchema.findAll({
       Result: Schema.Struct({ userId: UserId }),
       Request: ChatId,
-      execute: (chatId) => sql`
+      execute: (chatId) =>
+        sql`
         SELECT
           user_id
         FROM
@@ -70,13 +68,15 @@ export const ChatsRepoLive = Layer.effect(
     return {
       findDirect: flow(findDirect, Effect.orDie),
       create: (roomId: RoomId, members: ReadonlyArray<UserId>) =>
-        Effect.gen(function* () {
+        Effect.gen(function*() {
           const chat = yield* insertChat(roomId);
           yield* sql`
             INSERT INTO
-              chat_members ${sql.insert(
-                members.map((userId) => ({ chatId: chat.id, userId })),
-              )}
+              chat_members ${
+            sql.insert(
+              members.map((userId) => ({ chatId: chat.id, userId })),
+            )
+          }
           `;
           return chat;
         }).pipe(sql.withTransaction, Effect.orDie),
@@ -91,13 +91,14 @@ export const ChatsRepoLive = Layer.effect(
 
 export const MessagesRepoLive = Layer.effect(
   MessagesRepo,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
     const create = SqlSchema.single({
       Result: Message,
       Request: CreateMessageInput,
-      execute: (request) => sql`
+      execute: (request) =>
+        sql`
         INSERT INTO
           messages ${sql.insert(request)}
         RETURNING
@@ -108,7 +109,8 @@ export const MessagesRepoLive = Layer.effect(
     const listByChat = SqlSchema.findAll({
       Result: Message,
       Request: ChatId,
-      execute: (chatId) => sql`
+      execute: (chatId) =>
+        sql`
         SELECT
           *
         FROM

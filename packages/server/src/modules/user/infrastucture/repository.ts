@@ -1,5 +1,5 @@
-import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlClient from "@effect/sql/SqlClient";
+import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
@@ -7,12 +7,7 @@ import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
 import { EmailAlreadyInUseError } from "../domain/errors.js";
-import {
-  CreateSessionInput,
-  CreateUserInput,
-  SessionsRepo,
-  UsersRepo,
-} from "../domain/repo.js";
+import { CreateSessionInput, CreateUserInput, SessionsRepo, UsersRepo } from "../domain/repo.js";
 import { User, UserId, UserWithCredentials } from "../domain/schema.js";
 
 const isUniqueViolation = (error: SqlError.SqlError) =>
@@ -20,13 +15,14 @@ const isUniqueViolation = (error: SqlError.SqlError) =>
 
 export const UsersRepoLive = Layer.effect(
   UsersRepo,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
     const create = SqlSchema.single({
       Result: User,
       Request: CreateUserInput,
-      execute: (request) => sql`
+      execute: (request) =>
+        sql`
         INSERT INTO
           users ${sql.insert(request)}
         RETURNING
@@ -40,7 +36,8 @@ export const UsersRepoLive = Layer.effect(
     const findByEmail = SqlSchema.findOne({
       Result: UserWithCredentials,
       Request: Schema.String,
-      execute: (email) => sql`
+      execute: (email) =>
+        sql`
         SELECT
           *
         FROM
@@ -69,12 +66,13 @@ export const UsersRepoLive = Layer.effect(
 
 export const SessionsRepoLive = Layer.effect(
   SessionsRepo,
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
     const create = SqlSchema.void({
       Request: CreateSessionInput,
-      execute: (request) => sql`
+      execute: (request) =>
+        sql`
         INSERT INTO
           sessions ${sql.insert(request)}
       `,
@@ -83,7 +81,8 @@ export const SessionsRepoLive = Layer.effect(
     const findUser = SqlSchema.findOne({
       Result: User,
       Request: Schema.String,
-      execute: (tokenHash) => sql`
+      execute: (tokenHash) =>
+        sql`
         SELECT
           users.id,
           users.email,
@@ -100,7 +99,8 @@ export const SessionsRepoLive = Layer.effect(
 
     const deleteAllForUser = SqlSchema.void({
       Request: UserId,
-      execute: (userId) => sql`
+      execute: (userId) =>
+        sql`
         DELETE FROM sessions
         WHERE
           user_id = ${userId}

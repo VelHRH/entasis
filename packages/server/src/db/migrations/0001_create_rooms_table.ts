@@ -3,7 +3,8 @@ import { Effect } from "effect";
 
 export default Effect.flatMap(
   SqlClient.SqlClient,
-  (sql) => sql`
+  (sql) =>
+    sql`
     CREATE TABLE rooms (
         id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
         name TEXT NOT NULL,

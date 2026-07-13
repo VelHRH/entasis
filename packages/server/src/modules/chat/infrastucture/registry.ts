@@ -10,7 +10,7 @@ import { ConnectionRegistry } from "../domain/registry.js";
 type Send = (event: ServerEvent) => Effect.Effect<void>;
 
 export const ConnectionRegistryLive = Layer.effect(ConnectionRegistry)(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     // We have array of sends for each user in case user opened socket from several tabs, so we need update them all simultaneously
     // We use Ref to have ability update HashMap
     const connections = yield* Ref.make(
@@ -25,9 +25,7 @@ export const ConnectionRegistryLive = Layer.effect(ConnectionRegistry)(
     const register = (userId: UserId, send: Send) =>
       // acquireRelease to autoclean socket after user disconnected
       Effect.acquireRelease(
-        Ref.update(connections, (map) =>
-          HashMap.set(map, userId, [...sendsOf(map, userId), send]),
-        ),
+        Ref.update(connections, (map) => HashMap.set(map, userId, [...sendsOf(map, userId), send])),
         () =>
           Ref.update(connections, (map) => {
             const remaining = sendsOf(map, userId).filter((s) => s !== send);
@@ -44,7 +42,7 @@ export const ConnectionRegistryLive = Layer.effect(ConnectionRegistry)(
             userIds.flatMap((userId) => sendsOf(map, userId)),
             (send) => send(event),
             { discard: true },
-          ),
+          )
         ),
       );
 

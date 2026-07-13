@@ -5,15 +5,12 @@ import { CurrentUser } from "src/modules/user/api/interface.js";
 import { RoomsService } from "../domain/service.js";
 
 export const RoomsGroupLive = HttpApiBuilder.group(Api, "rooms", (handlers) =>
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const service = yield* RoomsService;
 
     return handlers
       .handle("list", () => service.list())
       .handle("upsert", ({ payload }) => service.upsert(payload))
-      .handle("join", ({ payload }) =>
-        Effect.flatMap(CurrentUser, (user) => service.join(payload.id, user.id)),
-      )
+      .handle("join", ({ payload }) => Effect.flatMap(CurrentUser, (user) => service.join(payload.id, user.id)))
       .handle("delete", ({ payload }) => service.delete(payload.id));
-  }),
-);
+  }));

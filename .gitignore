@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+coverage/
+*.tsbuildinfo
+.DS_Store
+
+# local agent-session config
+.claude/settings.local.json
+# stray session working dir recreated by the agent harness; real client is packages/client
+/client/

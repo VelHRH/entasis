@@ -1,12 +1,12 @@
 import { PlatformConfigProvider } from "@effect/platform";
 import { NodeContext } from "@effect/platform-node";
 import * as PgClient from "@effect/sql-pg/PgClient";
-import * as Schedule from "effect/Schedule";
-import * as Duration from "effect/Duration";
 import * as Config from "effect/Config";
+import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import { identity } from "effect/Function";
 import * as Layer from "effect/Layer";
+import * as Schedule from "effect/Schedule";
 import * as String from "effect/String";
 import * as path from "node:path";
 import pg from "pg";
@@ -30,7 +30,7 @@ const makePgTypes = () => {
 };
 
 export const PgLive = Layer.unwrapEffect(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     return PgClient.layer({
       url: yield* Config.redacted("DATABASE_URL"),
       transformQueryNames: String.camelToSnake,
@@ -49,9 +49,9 @@ export const PgLive = Layer.unwrapEffect(
         Schedule.onDecision(([[_error, duration], attempt], decision) =>
           decision._tag === "Continue"
             ? Effect.logInfo(
-                `Retrying database connection in ${Duration.format(duration)} (attempt #${++attempt})`,
-              )
-            : Effect.void,
+              `Retrying database connection in ${Duration.format(duration)} (attempt #${++attempt})`,
+            )
+            : Effect.void
         ),
       ),
     ),

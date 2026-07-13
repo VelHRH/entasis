@@ -1,18 +1,9 @@
-import {
-  HttpApiEndpoint,
-  HttpApiGroup,
-  HttpApiMiddleware,
-  HttpApiSecurity,
-} from "@effect/platform";
+import { HttpApiEndpoint, HttpApiGroup, HttpApiMiddleware, HttpApiSecurity } from "@effect/platform";
+import { Context } from "effect";
 import * as Schema from "effect/Schema";
 import { AuthResponse, CredentialsPayload } from "../domain/dto/credentials.js";
-import {
-  EmailAlreadyInUseError,
-  InvalidCredentialsError,
-  UnauthorizedError,
-} from "../domain/errors.js";
+import { EmailAlreadyInUseError, InvalidCredentialsError, UnauthorizedError } from "../domain/errors.js";
 import { User } from "../domain/schema.js";
-import { Context } from "effect";
 
 export class CurrentUser extends Context.Tag("CurrentUser")<
   CurrentUser,
@@ -63,4 +54,5 @@ export class UsersGroup extends HttpApiGroup.make("users")
       .addSuccess(Schema.Void)
       .middleware(Authorization),
   )
-  .prefix("/user") {}
+  .prefix("/user")
+{}

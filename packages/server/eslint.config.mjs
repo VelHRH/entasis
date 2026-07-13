@@ -65,8 +65,7 @@ export default [
       "no-restricted-syntax": [
         "error",
         {
-          selector:
-            "CallExpression[callee.property.name='push'] > SpreadElement.arguments",
+          selector: "CallExpression[callee.property.name='push'] > SpreadElement.arguments",
           message: "Do not use spread arguments in Array.push",
         },
       ],
@@ -122,7 +121,7 @@ export default [
             lineWidth: 120,
             semiColons: "prefer",
             quoteStyle: "alwaysDouble",
-            trailingCommas: "all",
+            trailingCommas: "onlyMultiLine",
             operatorPosition: "maintain",
             "arrowFunction.useParentheses": "force",
           },

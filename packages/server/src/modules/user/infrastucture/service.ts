@@ -4,14 +4,8 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
-import {
-  AuthResult,
-  type CredentialsPayload,
-} from "../domain/dto/credentials.js";
-import {
-  InvalidCredentialsError,
-  UnauthorizedError,
-} from "../domain/errors.js";
+import { AuthResult, type CredentialsPayload } from "../domain/dto/credentials.js";
+import { InvalidCredentialsError, UnauthorizedError } from "../domain/errors.js";
 import { SessionsRepo, UsersRepo } from "../domain/repo.js";
 import { User, type UserId } from "../domain/schema.js";
 import { AuthService, SESSION_TTL } from "../domain/service.js";
@@ -20,8 +14,7 @@ import { SessionsRepoLive, UsersRepoLive } from "./repository.js";
 const KEY_LENGTH = 64;
 
 // Session tokens are 256-bit random values, so a fast unsalted hash is enough
-const hashToken = (token: string) =>
-  createHash("sha256").update(token).digest("hex");
+const hashToken = (token: string) => createHash("sha256").update(token).digest("hex");
 
 // Stored as "<salt>:<derived key>", both hex-encoded.
 const hashPassword = (password: string) =>
@@ -65,13 +58,13 @@ const verifyPassword = (password: string, storedHash: string) =>
   });
 
 export const AuthServiceLive = Layer.effect(AuthService)(
-  Effect.gen(function* () {
+  Effect.gen(function*() {
     const usersRepo = yield* UsersRepo;
     const sessionsRepo = yield* SessionsRepo;
 
     // TODO: maybe move to JWT in the future
     const startSession = (user: User) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const token = randomBytes(32).toString("base64url");
         const now = yield* DateTime.now;
         yield* sessionsRepo.create({
@@ -83,7 +76,7 @@ export const AuthServiceLive = Layer.effect(AuthService)(
       });
 
     const signUp = (payload: CredentialsPayload) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const passwordHash = yield* hashPassword(
           Redacted.value(payload.password),
         );
@@ -95,7 +88,7 @@ export const AuthServiceLive = Layer.effect(AuthService)(
       });
 
     const login = (payload: CredentialsPayload) =>
-      Effect.gen(function* () {
+      Effect.gen(function*() {
         const found = yield* usersRepo.findByEmail(payload.email);
         if (Option.isNone(found)) {
           return yield* new InvalidCredentialsError();

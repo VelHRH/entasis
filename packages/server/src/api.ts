@@ -7,4 +7,5 @@ export class Api extends HttpApi.make("Api")
   .add(RoomsGroup)
   .add(UsersGroup)
   .add(ChatsGroup)
-  .prefix("/api") {}
+  .prefix("/api")
+{}

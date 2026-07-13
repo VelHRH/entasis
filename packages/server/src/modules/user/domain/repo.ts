@@ -3,7 +3,7 @@ import type * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import type { EmailAlreadyInUseError } from "./errors.js";
-import { User, UserWithCredentials, type UserId } from "./schema.js";
+import { User, type UserId, UserWithCredentials } from "./schema.js";
 
 export const CreateUserInput = UserWithCredentials.pipe(
   Schema.pick("email", "passwordHash"),

@@ -1,0 +1,24 @@
+{
+  "name": "entasis",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.14.0",
+  "engines": {
+    "npm": "Use pnpm instead of npm"
+  },
+  "scripts": {
+    "preinstall": "only-allow pnpm",
+    "build": "pnpm -r run build",
+    "check": "pnpm -r run check",
+    "test": "pnpm -r run test",
+    "lint": "pnpm -r run lint",
+    "dev:server": "pnpm --filter @entasis/server dev",
+    "dev:client": "pnpm --filter @entasis/client dev"
+  },
+  "devDependencies": {
+    "only-allow": "^1.2.2"
+  },
+  "pnpm": {
+    "patchedDependencies": {}
+  }
+}

@@ -3,7 +3,8 @@ import { Effect } from "effect";
 
 export default Effect.flatMap(
   SqlClient.SqlClient,
-  (sql) => sql`
+  (sql) =>
+    sql`
     CREATE TABLE room_members (
         room_id UUID NOT NULL REFERENCES rooms (id) ON DELETE CASCADE,
         user_id UUID NOT NULL REFERENCES users (id) ON DELETE CASCADE,

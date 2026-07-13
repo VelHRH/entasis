@@ -4,7 +4,7 @@ import type * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
 import type { RoomId } from "src/modules/room/domain/schema.js";
 import type { UserId } from "src/modules/user/domain/schema.js";
-import { Chat, Message, type ChatId } from "./schema.js";
+import { Chat, type ChatId, Message } from "./schema.js";
 
 export const FindDirectChatInput = Schema.Struct({
   roomId: Chat.fields.roomId,
