@@ -1,5 +1,6 @@
-import { HttpApiClient, type HttpClient } from "@effect/platform";
+import { HttpApiClient } from "@effect/platform";
 import { Api } from "@entasis/domain";
+import type { AuthResponse } from "@entasis/domain/user/credentials";
 import { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { Effect, Redacted } from "effect";
 import { runtime } from "./runtime";
@@ -18,7 +19,9 @@ export type AuthResult =
 // reverse proxy in production) keeps the session cookie first-party.
 const apiClient = HttpApiClient.make(Api);
 
-const toSessionUser = (user: { id: string; email: string }): SessionUser => ({
+type ApiClient = Effect.Effect.Success<typeof apiClient>;
+
+const toSessionUser = (user: SessionUser): SessionUser => ({
   id: user.id,
   email: user.email,
 });
@@ -31,45 +34,44 @@ const credentials = (email: string, password: string) =>
     catch: () => new Error("Enter a valid email and a password of at least 8 characters"),
   });
 
-const toAuthResult = (
-  effect: Effect.Effect<
-    { readonly user: { id: string; email: string } },
-    { readonly message: string },
-    HttpClient.HttpClient
-  >,
+// Shared signup/login pipeline: the endpoint's own tagged error keeps its
+// readable message; anything else (transport, decode) is not the user's
+// fault and collapses to a generic message.
+const authCall = <E extends { readonly _tag: string; readonly message: string }>(
+  email: string,
+  password: string,
+  call: (client: ApiClient, payload: CredentialsPayload) => Effect.Effect<AuthResponse, E>,
+  userFacingTag: E["_tag"],
 ): Promise<AuthResult> =>
   runtime.runPromise(
-    effect.pipe(
+    credentials(email, password).pipe(
+      Effect.flatMap((payload) =>
+        apiClient.pipe(
+          Effect.flatMap((client) => call(client, payload)),
+          Effect.mapError((error) =>
+            error._tag === userFacingTag ? error : new Error("Something went wrong, try again")
+          ),
+        )
+      ),
       Effect.map(({ user }): AuthResult => ({ ok: true, user: toSessionUser(user) })),
       Effect.catchAll((error) => Effect.succeed<AuthResult>({ ok: false, message: error.message })),
     ),
   );
 
 export const signUp = (email: string, password: string): Promise<AuthResult> =>
-  toAuthResult(
-    credentials(email, password).pipe(
-      Effect.flatMap((payload) =>
-        apiClient.pipe(
-          Effect.flatMap((client) => client.users.signUp({ payload, headers: {} })),
-          // Decode/transport failures are bugs or outages, not user errors.
-          Effect.catchTag("EmailAlreadyInUseError", (error) => Effect.fail(error)),
-          Effect.catchAll(() => Effect.fail(new Error("Something went wrong, try again"))),
-        )
-      ),
-    ),
+  authCall(
+    email,
+    password,
+    (client, payload) => client.users.signUp({ payload, headers: {} }),
+    "EmailAlreadyInUseError",
   );
 
 export const login = (email: string, password: string): Promise<AuthResult> =>
-  toAuthResult(
-    credentials(email, password).pipe(
-      Effect.flatMap((payload) =>
-        apiClient.pipe(
-          Effect.flatMap((client) => client.users.login({ payload, headers: {} })),
-          Effect.catchTag("InvalidCredentialsError", (error) => Effect.fail(error)),
-          Effect.catchAll(() => Effect.fail(new Error("Something went wrong, try again"))),
-        )
-      ),
-    ),
+  authCall(
+    email,
+    password,
+    (client, payload) => client.users.login({ payload, headers: {} }),
+    "InvalidCredentialsError",
   );
 
 // Resolves the current user from the session cookie; null when logged out.
