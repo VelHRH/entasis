@@ -1,14 +1,15 @@
 import * as SqlClient from "@effect/sql/SqlClient";
 import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
+import { EmailAlreadyInUseError } from "@entasis/domain/user/errors";
+import { User, UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
-import { EmailAlreadyInUseError } from "../domain/errors.js";
 import { CreateSessionInput, CreateUserInput, SessionsRepo, UsersRepo } from "../domain/repo.js";
-import { User, UserId, UserWithCredentials } from "../domain/schema.js";
+import { UserWithCredentials } from "../domain/schema.js";
 
 const isUniqueViolation = (error: SqlError.SqlError) =>
   (error.cause as { code?: string } | undefined)?.code === "23505";

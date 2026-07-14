@@ -1,6 +1,6 @@
 import { HttpApiSchema } from "@effect/platform";
 import * as Schema from "effect/Schema";
-import { RoomId } from "src/modules/room/domain/schema.js";
+import { RoomId } from "../room/schema.js";
 import { ChatId } from "./schema.js";
 
 // Also returned when the chat exists but the user is not a member, so we don't leak which chats exist.

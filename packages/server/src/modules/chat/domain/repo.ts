@@ -1,10 +1,10 @@
+import { Chat, type ChatId, Message } from "@entasis/domain/chat/schema";
+import type { RoomId } from "@entasis/domain/room/schema";
+import type { UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";
 import * as Schema from "effect/Schema";
-import type { RoomId } from "src/modules/room/domain/schema.js";
-import type { UserId } from "src/modules/user/domain/schema.js";
-import { Chat, type ChatId, Message } from "./schema.js";
 
 export const FindDirectChatInput = Schema.Struct({
   roomId: Chat.fields.roomId,

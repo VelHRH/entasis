@@ -1,13 +1,14 @@
+import type { CredentialsPayload } from "@entasis/domain/user/credentials";
+import { InvalidCredentialsError, UnauthorizedError } from "@entasis/domain/user/errors";
+import { User, type UserId } from "@entasis/domain/user/schema";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
-import { AuthResult, type CredentialsPayload } from "../domain/dto/credentials.js";
-import { InvalidCredentialsError, UnauthorizedError } from "../domain/errors.js";
+import { AuthResult } from "../domain/dto/auth-result.js";
 import { SessionsRepo, UsersRepo } from "../domain/repo.js";
-import { User, type UserId } from "../domain/schema.js";
 import { AuthService, SESSION_TTL } from "../domain/service.js";
 import { SessionsRepoLive, UsersRepoLive } from "./repository.js";
 

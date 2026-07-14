@@ -1,9 +1,9 @@
 import { HttpApiEndpoint, HttpApiGroup } from "@effect/platform";
 import * as Schema from "effect/Schema";
-import { Authorization } from "src/modules/user/api/interface.js";
-import { UpsertRoomPayload } from "../domain/dto/upsert.js";
-import { RoomNotFoundError } from "../domain/errors.js";
-import { Room, RoomId } from "../domain/schema.js";
+import { Authorization } from "../user/http.js";
+import { RoomNotFoundError } from "./errors.js";
+import { Room, RoomId } from "./schema.js";
+import { UpsertRoomPayload } from "./upsert.js";
 
 export class RoomsGroup extends HttpApiGroup.make("rooms")
   .add(HttpApiEndpoint.get("list", "/").addSuccess(Schema.Array(Room)))

@@ -1,9 +1,9 @@
+import type { RoomId } from "@entasis/domain/room/schema";
+import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
+import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import type { UserId } from "src/modules/user/domain/schema.js";
-import type { UpsertRoomPayload } from "../domain/dto/upsert.js";
 import { RoomsRepo } from "../domain/repo.js";
-import type { RoomId } from "../domain/schema.js";
 import { RoomsService } from "../domain/service.js";
 import { RoomsRepoLive } from "./repository.js";
 

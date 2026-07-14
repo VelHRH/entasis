@@ -1,14 +1,14 @@
 import * as SqlClient from "@effect/sql/SqlClient";
 import * as SqlSchema from "@effect/sql/SqlSchema";
+import { Chat, ChatId, Message } from "@entasis/domain/chat/schema";
+import { RoomId } from "@entasis/domain/room/schema";
+import { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
-import { RoomId } from "src/modules/room/domain/schema.js";
-import { UserId } from "src/modules/user/domain/schema.js";
 import { ChatsRepo, CreateMessageInput, FindDirectChatInput, MessagesRepo } from "../domain/repo.js";
-import { Chat, ChatId, Message } from "../domain/schema.js";
 
 export const ChatsRepoLive = Layer.effect(
   ChatsRepo,

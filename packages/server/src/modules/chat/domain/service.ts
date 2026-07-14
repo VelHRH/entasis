@@ -1,10 +1,10 @@
+import type { ChatNotFoundError, NotRoomMemberError } from "@entasis/domain/chat/errors";
+import type { OpenChatPayload } from "@entasis/domain/chat/open-chat";
+import type { SendMessage } from "@entasis/domain/chat/protocol";
+import type { Chat, ChatId, Message } from "@entasis/domain/chat/schema";
+import type { UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
-import type { UserId } from "src/modules/user/domain/schema.js";
-import type { OpenChatPayload } from "./dto/open-chat.js";
-import type { SendMessage } from "./dto/protocol.js";
-import type { ChatNotFoundError, NotRoomMemberError } from "./errors.js";
-import type { Chat, ChatId, Message } from "./schema.js";
 
 export class ChatService extends Context.Tag("ChatService")<
   ChatService,

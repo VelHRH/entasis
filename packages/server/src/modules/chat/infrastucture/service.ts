@@ -1,15 +1,15 @@
+import { ChatNotFoundError, NotRoomMemberError } from "@entasis/domain/chat/errors";
+import type { OpenChatPayload } from "@entasis/domain/chat/open-chat";
+import { MessageReceived, type SendMessage } from "@entasis/domain/chat/protocol";
+import type { ChatId } from "@entasis/domain/chat/schema";
+import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import { RoomsRepo } from "src/modules/room/domain/repo.js";
 import { RoomsRepoLive } from "src/modules/room/infrastucture/repository.js";
-import type { UserId } from "src/modules/user/domain/schema.js";
-import type { OpenChatPayload } from "../domain/dto/open-chat.js";
-import { MessageReceived, type SendMessage } from "../domain/dto/protocol.js";
-import { ChatNotFoundError, NotRoomMemberError } from "../domain/errors.js";
 import { ConnectionRegistry } from "../domain/registry.js";
 import { ChatsRepo, MessagesRepo } from "../domain/repo.js";
-import type { ChatId } from "../domain/schema.js";
 import { ChatService } from "../domain/service.js";
 import { ChatsRepoLive, MessagesRepoLive } from "./repository.js";
 

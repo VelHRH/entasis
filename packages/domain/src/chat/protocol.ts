@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { ChatId, Message } from "../schema.js";
+import { ChatId, Message } from "./schema.js";
 
 export const MessageBody = Schema.String.pipe(
   Schema.minLength(1),

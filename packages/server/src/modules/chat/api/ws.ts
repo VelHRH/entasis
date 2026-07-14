@@ -1,10 +1,15 @@
 import { HttpLayerRouter, HttpServerRequest, HttpServerResponse } from "@effect/platform";
+import {
+  ClientEventFromJson,
+  EventRejected,
+  type ServerEvent,
+  ServerEventFromJson,
+} from "@entasis/domain/chat/protocol";
+import type { User } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import type { User } from "src/modules/user/domain/schema.js";
 import { AuthService } from "src/modules/user/domain/service.js";
-import { ClientEventFromJson, EventRejected, type ServerEvent, ServerEventFromJson } from "../domain/dto/protocol.js";
 import { ConnectionRegistry } from "../domain/registry.js";
 import { ChatService } from "../domain/service.js";
 

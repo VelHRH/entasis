@@ -1,10 +1,10 @@
+import type { ServerEvent } from "@entasis/domain/chat/protocol";
+import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as HashMap from "effect/HashMap";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
-import type { UserId } from "src/modules/user/domain/schema.js";
-import type { ServerEvent } from "../domain/dto/protocol.js";
 import { ConnectionRegistry } from "../domain/registry.js";
 
 type Send = (event: ServerEvent) => Effect.Effect<void>;

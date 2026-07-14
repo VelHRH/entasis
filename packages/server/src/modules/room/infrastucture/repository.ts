@@ -1,15 +1,15 @@
 import * as SqlClient from "@effect/sql/SqlClient";
 import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
+import { RoomNotFoundError } from "@entasis/domain/room/errors";
+import { Room, RoomId } from "@entasis/domain/room/schema";
+import { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 import { PgLive } from "src/db/pg-client.js";
-import { UserId } from "src/modules/user/domain/schema.js";
-import { RoomNotFoundError } from "../domain/errors.js";
 import { AddRoomMemberInput, CreateRoomInput, RoomsRepo, UpdateRoomInput } from "../domain/repo.js";
-import { Room, RoomId } from "../domain/schema.js";
 
 const isForeignKeyViolation = (error: SqlError.SqlError) =>
   (error.cause as { code?: string } | undefined)?.code === "23503";
