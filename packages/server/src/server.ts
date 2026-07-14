@@ -1,9 +1,9 @@
 import { HttpLayerRouter, HttpServerResponse, PlatformConfigProvider } from "@effect/platform";
 import { NodeContext, NodeHttpServer, NodeRuntime } from "@effect/platform-node";
+import { Api } from "@entasis/domain/api";
 import { Config, Layer } from "effect";
 import { createServer } from "node:http";
 import * as path from "node:path";
-import { Api } from "./api.js";
 import { ChatModuleLive, ChatWsModuleLive } from "./modules/chat/index.js";
 import { RoomsModuleLive } from "./modules/room/index.js";
 import { AuthorizationModuleLive, UsersModuleLive } from "./modules/user/index.js";

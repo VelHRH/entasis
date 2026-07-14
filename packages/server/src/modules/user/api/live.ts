@@ -1,10 +1,11 @@
 import * as HttpApiBuilder from "@effect/platform/HttpApiBuilder";
+import { Api } from "@entasis/domain/api";
+import { AuthResponse } from "@entasis/domain/user/credentials";
+import { Authorization, CurrentUser, SessionCookie } from "@entasis/domain/user/http";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { Api } from "src/api.js";
-import { AuthResponse, type AuthResult } from "../domain/dto/credentials.js";
+import type { AuthResult } from "../domain/dto/auth-result.js";
 import { AuthService, SESSION_TTL } from "../domain/service.js";
-import { Authorization, CurrentUser, SessionCookie } from "./interface.js";
 
 // TODO: drop `secure: false` once the server is behind HTTPS.
 const cookieOptions = {

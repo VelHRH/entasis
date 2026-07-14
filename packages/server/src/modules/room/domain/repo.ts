@@ -1,9 +1,9 @@
+import type { RoomNotFoundError } from "@entasis/domain/room/errors";
+import { Room, RoomId } from "@entasis/domain/room/schema";
+import { UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";
-import { UserId } from "src/modules/user/domain/schema.js";
-import type { RoomNotFoundError } from "./errors.js";
-import { Room, RoomId } from "./schema.js";
 
 export const CreateRoomInput = Room.pipe(Schema.pick("name"));
 export type CreateRoomInput = typeof CreateRoomInput.Type;

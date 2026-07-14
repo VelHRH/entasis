@@ -1,0 +1,30 @@
+{
+  "name": "@entasis/domain",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "license": "MIT",
+  "description": "Entasis shared contract: HTTP API definition, schemas, DTOs, errors, WS protocol",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VelHRH/entasis",
+    "directory": "packages/domain"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "build": "tsc -b tsconfig.build.json",
+    "check": "tsc -b tsconfig.json"
+  },
+  "dependencies": {
+    "@effect/platform": "^0.96.2",
+    "effect": "^3.17.7"
+  },
+  "devDependencies": {
+    "@effect/language-service": "latest",
+    "typescript": "^5.6.2"
+  }
+}

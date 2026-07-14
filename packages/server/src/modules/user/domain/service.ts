@@ -1,10 +1,11 @@
+import type { CredentialsPayload } from "@entasis/domain/user/credentials";
+import type { EmailAlreadyInUseError, InvalidCredentialsError, UnauthorizedError } from "@entasis/domain/user/errors";
+import type { User, UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import type * as Effect from "effect/Effect";
 import type * as Redacted from "effect/Redacted";
-import type { AuthResult, CredentialsPayload } from "./dto/credentials.js";
-import type { EmailAlreadyInUseError, InvalidCredentialsError, UnauthorizedError } from "./errors.js";
-import type { User, UserId } from "./schema.js";
+import type { AuthResult } from "./dto/auth-result.js";
 
 export const SESSION_TTL = Duration.days(30);
 

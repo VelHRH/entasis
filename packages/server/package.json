@@ -31,6 +31,7 @@
     "@effect/platform-node": "^0.107.0",
     "@effect/sql": "^0.51.1",
     "@effect/sql-pg": "^0.52.1",
+    "@entasis/domain": "workspace:^",
     "effect": "^3.17.7",
     "pg": "^8.22.0"
   },

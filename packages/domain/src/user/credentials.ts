@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { User } from "../schema.js";
+import { User } from "./schema.js";
 
 const Email = Schema.compose(Schema.Trim, Schema.Lowercase).pipe(
   Schema.pattern(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, {
@@ -26,11 +26,6 @@ export class CredentialsPayload extends Schema.Class<CredentialsPayload>(
 )({
   email: Email,
   password: Password,
-}) {}
-
-export class AuthResult extends Schema.Class<AuthResult>("AuthResult")({
-  token: Schema.String,
-  user: User,
 }) {}
 
 // API response for signup/login: `token` is present only for mobile clients

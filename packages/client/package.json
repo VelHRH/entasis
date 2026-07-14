@@ -7,10 +7,14 @@
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
     "check": "vue-tsc -b",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "smoke": "tsx scripts/smoke.ts"
   },
   "dependencies": {
+    "@effect/platform": "^0.96.2",
+    "@entasis/domain": "workspace:^",
     "@tailwindcss/vite": "^4.3.2",
+    "effect": "^3.17.7",
     "tailwindcss": "^4.3.2",
     "vue": "^3.5.39"
   },
@@ -18,6 +22,7 @@
     "@types/node": "^24.13.2",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
+    "tsx": "^4.17.0",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
     "vue-tsc": "^3.3.5"

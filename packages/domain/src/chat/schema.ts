@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
-import { RoomId } from "src/modules/room/domain/schema.js";
-import { UserId } from "src/modules/user/domain/schema.js";
+import { RoomId } from "../room/schema.js";
+import { UserId } from "../user/schema.js";
 
 export const ChatId = Schema.UUID.pipe(Schema.brand("ChatId"));
 export type ChatId = typeof ChatId.Type;

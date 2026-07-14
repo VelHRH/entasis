@@ -1,5 +1,5 @@
 import * as Schema from "effect/Schema";
-import { RoomId } from "../schema.js";
+import { RoomId } from "./schema.js";
 
 export class UpsertRoomPayload extends Schema.Class<UpsertRoomPayload>(
   "UpsertRoomPayload",
