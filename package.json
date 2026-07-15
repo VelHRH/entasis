@@ -10,7 +10,8 @@
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
     "dev:server": "pnpm --filter @entasis/server dev",
-    "dev:client": "pnpm --filter @entasis/client dev"
+    "dev:client": "pnpm --filter @entasis/client dev",
+    "dev": "pnpm --parallel --filter @entasis/server --filter @entasis/client run dev"
   },
   "devDependencies": {
     "only-allow": "^1.2.2"

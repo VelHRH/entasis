@@ -1,10 +1,12 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    // No baseUrl (deprecated in TS 6): paths resolve relative to this file,
+    // and the bare "src/..." imports get an explicit mapping instead.
     "paths": {
       "@entasis/domain": ["../domain/src/index.js"],
-      "@entasis/domain/*": ["../domain/src/*.js"]
+      "@entasis/domain/*": ["../domain/src/*.js"],
+      "src/*": ["./src/*"]
     }
   }
 }

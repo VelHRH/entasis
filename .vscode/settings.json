@@ -1,0 +1,21 @@
+{
+  "typescript.tsdk": "packages/client/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  // Two formatters coexist in this monorepo: the client formats with Prettier
+  // (it has a .prettierrc.json; requireConfig keeps Prettier away from every
+  // other package), while server/domain format with dprint through the ESLint
+  // autofix on save.
+  "prettier.requireConfig": true,
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[vue]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }]
+}

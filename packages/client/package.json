@@ -8,7 +8,9 @@
     "build": "vue-tsc -b && vite build",
     "check": "vue-tsc -b",
     "preview": "vite preview",
-    "smoke": "tsx scripts/smoke.ts"
+    "smoke": "tsx scripts/smoke.ts",
+    "format": "prettier --write \"{src,scripts}/**/*.{ts,vue,css}\"",
+    "format-check": "prettier --check \"{src,scripts}/**/*.{ts,vue,css}\""
   },
   "dependencies": {
     "@effect/platform": "^0.96.2",
@@ -22,6 +24,7 @@
     "@types/node": "^24.13.2",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/tsconfig": "^0.9.1",
+    "prettier": "^3.9.5",
     "tsx": "^4.17.0",
     "typescript": "~6.0.2",
     "vite": "^8.1.1",
