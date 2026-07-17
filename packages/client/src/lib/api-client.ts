@@ -10,7 +10,7 @@ const apiClient = HttpApiClient.make(Api);
 
 export type ApiClient = Effect.Effect.Success<typeof apiClient>;
 
-// The result shape every service hands outward: success carries the data,
+// The result shape for front: success carries the data,
 // failure carries a user-facing message. Failure is a value — the Promises
 // returned by services never reject.
 export type ApiResult<A> =

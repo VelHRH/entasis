@@ -8,7 +8,7 @@ import { Effect, Redacted } from "effect";
 
 const baseUrl = process.env.API_URL ?? "http://localhost:3222";
 
-const program = Effect.gen(function*() {
+const program = Effect.gen(function* () {
   const client = yield* HttpApiClient.make(Api, { baseUrl });
 
   const email = `smoke-${Date.now()}@example.com`;
@@ -35,17 +35,12 @@ const program = Effect.gen(function*() {
     .pipe(Effect.flip);
 
   if (rejection._tag !== "InvalidCredentialsError") {
-    return yield* Effect.dieMessage(
-      `expected InvalidCredentialsError, got ${rejection._tag}`,
-    );
+    return yield* Effect.dieMessage(`expected InvalidCredentialsError, got ${rejection._tag}`);
   }
   yield* Effect.log("login with bad password: decoded tagged InvalidCredentialsError");
 });
 
-program.pipe(
-  Effect.provide(FetchHttpClient.layer),
-  Effect.runPromise,
-).then(
+program.pipe(Effect.provide(FetchHttpClient.layer), Effect.runPromise).then(
   () => {
     console.log(`smoke OK against ${baseUrl}`);
   },

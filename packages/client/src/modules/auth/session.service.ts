@@ -20,10 +20,10 @@ export const toSessionUser = (user: SessionUser): SessionUser => ({
 export const me = (): Promise<ApiResult<SessionUser | null>> =>
   runApi((client) =>
     client.users.me().pipe(
-      Effect.map((user) => ok<SessionUser | null>(toSessionUser(user))),
+      Effect.map((user) => ok(toSessionUser(user))),
       // The endpoint's one declared failure: no/expired session cookie.
-      Effect.catchTag("UnauthorizedError", () => Effect.succeed(ok<SessionUser | null>(null))),
-      Effect.catchAll(() => Effect.succeed(err<SessionUser | null>("Can't reach the server"))),
+      Effect.catchTag("UnauthorizedError", () => Effect.succeed(ok(null))),
+      Effect.catchAll(() => Effect.succeed(err("Can't reach the server"))),
     ),
   );
 
