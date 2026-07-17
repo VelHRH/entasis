@@ -23,8 +23,8 @@ src/
 │   └── auth/            AuthView.vue, session.store.ts, auth.service.ts, session.service.ts
 ├── ui/                  shared UI primitives (Button, Input, …) — may start empty
 ├── lib/                 shared infrastructure: effect-runner.ts (the single
-│                        ManagedRuntime), api-client.ts (the derived client +
-│                        runApi, which runs one-shot HTTP pipelines to Promises)
+│                        ManagedRuntime), api-client.ts (the derived client,
+│                        runApi and the ApiResult<A> shape services return)
 ├── utils/               shared pure helpers (created only when something needs it)
 ├── router.ts            the one global router; assembles routes, owns the guard
 ├── App.vue
@@ -41,6 +41,15 @@ Rules:
   (`effect-runner.ts`, `api-client.ts`). There is exactly one `ManagedRuntime`
   (the `effectRunner` in `lib/effect-runner.ts`); modules never create their
   own. Components and stores work with plain data and Promises.
+- **The service boundary contract:** one-shot HTTP calls go through `runApi`,
+  which pairs the derived client with the runner and returns a Promise. That
+  Promise never rejects — services return `ApiResult<A>`
+  (`{ ok: true, data } | { ok: false, message }`, built with the `ok`/`err`
+  constructors), sorting expected tagged errors (`Effect.catchTag`) into real
+  answers and collapsing infrastructure failures into an `err` message.
+  Long-lived work (the WebSocket transport, #8) does not fit the one-shot
+  shape and uses `effectRunner` directly (`runFork`/`runCallback`) — still
+  the same single runtime.
 - **Cross-module imports go through a module's public files only** — its
   stores and exported route names (the `routeNames` constants in `router.ts`;
   no string literals). Never import another module's `*.service.ts`.
