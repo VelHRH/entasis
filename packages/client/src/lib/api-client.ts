@@ -14,7 +14,11 @@ export type ApiClient = Effect.Effect.Success<typeof apiClient>;
 // failure carries a user-facing message. Failure is a value — the Promises
 // returned by services never reject.
 export type ApiResult<A> =
-  { readonly ok: true; readonly data: A } | { readonly ok: false; readonly message: string };
+  | {
+      readonly ok: true;
+      readonly data: A;
+    }
+  | { readonly ok: false; readonly message: string };
 
 export const ok = <A>(data: A): ApiResult<A> => ({ ok: true, data });
 export const err = <A = never>(message: string): ApiResult<A> => ({ ok: false, message });

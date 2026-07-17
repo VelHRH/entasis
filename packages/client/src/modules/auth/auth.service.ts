@@ -35,7 +35,7 @@ const authCall = <E extends { readonly _tag: string; readonly message: string }>
         ),
       ),
       Effect.map(({ user }) => ok(toSessionUser(user))),
-      Effect.catchAll((error) => Effect.succeed(err<SessionUser>(error.message))),
+      Effect.catchAll((error) => Effect.succeed(err(error.message))),
     ),
   );
 
