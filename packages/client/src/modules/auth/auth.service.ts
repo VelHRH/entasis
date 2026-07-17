@@ -2,7 +2,7 @@ import type { AuthResponse } from "@entasis/domain/user/credentials";
 import { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { Effect, Redacted } from "effect";
 import type { ApiClient } from "../../lib/api-client";
-import { apiClient } from "../../lib/api-client";
+import { callApi } from "../../lib/api-client";
 import { effectRunner } from "../../lib/effect-runner";
 import type { SessionUser } from "./session.service";
 import { toSessionUser } from "./session.service";
@@ -31,8 +31,7 @@ const authCall = <E extends { readonly _tag: string; readonly message: string }>
   effectRunner.runPromise(
     credentials(email, password).pipe(
       Effect.flatMap((payload) =>
-        apiClient.pipe(
-          Effect.flatMap((client) => call(client, payload)),
+        callApi((client) => call(client, payload)).pipe(
           Effect.mapError((error) =>
             error._tag === userFacingTag ? error : new Error("Something went wrong, try again"),
           ),
