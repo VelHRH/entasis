@@ -23,8 +23,8 @@ src/
 │   └── auth/            AuthView.vue, session.store.ts, auth.service.ts, session.service.ts
 ├── ui/                  shared UI primitives (Button, Input, …) — may start empty
 ├── lib/                 shared infrastructure: effect-runner.ts (the single
-│                        ManagedRuntime that runs Effects for the services),
-│                        api-client.ts (the one client derived from the contract)
+│                        ManagedRuntime), api-client.ts (the derived client +
+│                        runApi, which runs one-shot HTTP pipelines to Promises)
 ├── utils/               shared pure helpers (created only when something needs it)
 ├── router.ts            the one global router; assembles routes, owns the guard
 ├── App.vue
