@@ -20,9 +20,11 @@ session (issue #14).
 ```
 src/
 ├── modules/
-│   └── auth/            AuthView.vue, session.store.ts, auth.service.ts
+│   └── auth/            AuthView.vue, session.store.ts, auth.service.ts, session.service.ts
 ├── ui/                  shared UI primitives (Button, Input, …) — may start empty
-├── lib/                 shared infrastructure; runtime.ts (the single ManagedRuntime)
+├── lib/                 shared infrastructure: effect-runner.ts (the single
+│                        ManagedRuntime that runs Effects for the services),
+│                        api-client.ts (the one client derived from the contract)
 ├── utils/               shared pure helpers (created only when something needs it)
 ├── router.ts            the one global router; assembles routes, owns the guard
 ├── App.vue
@@ -35,9 +37,10 @@ Rules:
   services (`*.service.ts`) for a feature live in its module folder.
   `session.store.ts` belongs to `modules/auth`.
 - **Effect confinement, restated from ADR-0001 / spec #1:** Effect appears
-  only in `*.service.ts` files and `lib/runtime.ts`. There is exactly one
-  `ManagedRuntime` (in `lib/runtime.ts`); modules never create their own.
-  Components and stores work with plain data and Promises.
+  only in `*.service.ts` files and the shared infrastructure in `lib/`
+  (`effect-runner.ts`, `api-client.ts`). There is exactly one `ManagedRuntime`
+  (the `effectRunner` in `lib/effect-runner.ts`); modules never create their
+  own. Components and stores work with plain data and Promises.
 - **Cross-module imports go through a module's public files only** — its
   stores and exported route names (the `routeNames` constants in `router.ts`;
   no string literals). Never import another module's `*.service.ts`.
@@ -68,6 +71,6 @@ table actually grows.
 - Shared UI primitives extracted during the token pass (#6) go to `ui/`.
 - The Effect rule is grep-checkable:
   `grep -rlE "from ['\"](effect|@effect/)" src` must list only `*.service.ts`
-  files and `lib/runtime.ts`.
+  files and files under `lib/`.
 - Until ESLint lands, the cross-module import rule is enforced by review, not
   tooling.

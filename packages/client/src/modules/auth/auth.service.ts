@@ -1,30 +1,15 @@
-import { HttpApiClient } from "@effect/platform";
-import { Api } from "@entasis/domain";
 import type { AuthResponse } from "@entasis/domain/user/credentials";
 import { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { Effect, Redacted } from "effect";
-import { runtime } from "../../lib/runtime";
-
-// Plain view of the current user for stores/components.
-export interface SessionUser {
-  readonly id: string;
-  readonly email: string;
-}
+import type { ApiClient } from "../../lib/api-client";
+import { apiClient } from "../../lib/api-client";
+import { effectRunner } from "../../lib/effect-runner";
+import type { SessionUser } from "./session.service";
+import { toSessionUser } from "./session.service";
 
 export type AuthResult =
   | { readonly ok: true; readonly user: SessionUser }
   | { readonly ok: false; readonly message: string };
-
-// No baseUrl: requests go to relative /api/... so the Vite dev proxy (and the
-// reverse proxy in production) keeps the session cookie first-party.
-const apiClient = HttpApiClient.make(Api);
-
-type ApiClient = Effect.Effect.Success<typeof apiClient>;
-
-const toSessionUser = (user: SessionUser): SessionUser => ({
-  id: user.id,
-  email: user.email,
-});
 
 // CredentialsPayload validates on construction (email shape, password
 // length); surface those as the same kind of readable message as API errors.
@@ -43,7 +28,7 @@ const authCall = <E extends { readonly _tag: string; readonly message: string }>
   call: (client: ApiClient, payload: CredentialsPayload) => Effect.Effect<AuthResponse, E>,
   userFacingTag: E["_tag"],
 ): Promise<AuthResult> =>
-  runtime.runPromise(
+  effectRunner.runPromise(
     credentials(email, password).pipe(
       Effect.flatMap((payload) =>
         apiClient.pipe(
@@ -72,24 +57,4 @@ export const login = (email: string, password: string): Promise<AuthResult> =>
     password,
     (client, payload) => client.users.login({ payload, headers: {} }),
     "InvalidCredentialsError",
-  );
-
-// Resolves the current user from the session cookie; null when logged out.
-export const me = (): Promise<SessionUser | null> =>
-  runtime.runPromise(
-    apiClient.pipe(
-      Effect.flatMap((client) => client.users.me()),
-      Effect.map(toSessionUser),
-      Effect.catchAll(() => Effect.succeed(null)),
-    ),
-  );
-
-export const logout = (): Promise<void> =>
-  runtime.runPromise(
-    apiClient.pipe(
-      Effect.flatMap((client) => client.users.logout()),
-      // Even if the request fails the client-side session state is dropped;
-      // the guard will send the user back to auth either way.
-      Effect.catchAll(() => Effect.void),
-    ),
   );

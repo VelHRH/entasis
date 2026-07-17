@@ -1,8 +1,9 @@
 import { defineStore } from "pinia";
 import * as auth from "./auth.service";
-import type { SessionUser } from "./auth.service";
+import * as session from "./session.service";
+import type { SessionUser } from "./session.service";
 
-// Session state as plain data; all Effect stays behind auth.service.
+// Session state as plain data; all Effect stays behind the module's services.
 export const useSessionStore = defineStore("session", {
   state: () => ({
     user: null as SessionUser | null,
@@ -13,7 +14,7 @@ export const useSessionStore = defineStore("session", {
   actions: {
     async resolve() {
       if (!this.resolved) {
-        this.user = await auth.me();
+        this.user = await session.me();
         this.resolved = true;
       }
       return this.user;
@@ -33,7 +34,7 @@ export const useSessionStore = defineStore("session", {
       return result;
     },
     async logout() {
-      await auth.logout();
+      await session.logout();
       this.user = null;
     },
   },
