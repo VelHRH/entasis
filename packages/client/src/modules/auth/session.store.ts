@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import * as auth from "../services/auth";
-import type { SessionUser } from "../services/auth";
+import * as auth from "./auth.service";
+import type { SessionUser } from "./auth.service";
 
-// Session state as plain data; all Effect stays behind services/auth.
+// Session state as plain data; all Effect stays behind auth.service.
 export const useSessionStore = defineStore("session", {
   state: () => ({
     user: null as SessionUser | null,

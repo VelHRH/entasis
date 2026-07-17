@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useSessionStore } from "./stores/session";
-import AuthView from "./views/AuthView.vue";
-import HomeView from "./views/HomeView.vue";
+import { useSessionStore } from "./modules/auth/session.store";
+import AuthView from "./modules/auth/AuthView.vue";
+import HomeView from "./modules/home/HomeView.vue";
 
 export const router = createRouter({
   history: createWebHistory(),

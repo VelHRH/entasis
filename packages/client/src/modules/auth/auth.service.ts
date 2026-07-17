@@ -3,7 +3,7 @@ import { Api } from "@entasis/domain";
 import type { AuthResponse } from "@entasis/domain/user/credentials";
 import { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { Effect, Redacted } from "effect";
-import { runtime } from "./runtime";
+import { runtime } from "../../lib/runtime";
 
 // Plain view of the current user for stores/components.
 export interface SessionUser {
@@ -49,9 +49,9 @@ const authCall = <E extends { readonly _tag: string; readonly message: string }>
         apiClient.pipe(
           Effect.flatMap((client) => call(client, payload)),
           Effect.mapError((error) =>
-            error._tag === userFacingTag ? error : new Error("Something went wrong, try again")
+            error._tag === userFacingTag ? error : new Error("Something went wrong, try again"),
           ),
-        )
+        ),
       ),
       Effect.map(({ user }): AuthResult => ({ ok: true, user: toSessionUser(user) })),
       Effect.catchAll((error) => Effect.succeed<AuthResult>({ ok: false, message: error.message })),
