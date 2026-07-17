@@ -15,6 +15,8 @@
   "dependencies": {
     "@effect/platform": "^0.96.2",
     "@entasis/domain": "workspace:^",
+    "@fontsource-variable/space-grotesk": "^5.2.10",
+    "@fontsource/space-mono": "^5.2.9",
     "@tailwindcss/vite": "^4.3.2",
     "effect": "^3.17.7",
     "pinia": "^3.0.4",
