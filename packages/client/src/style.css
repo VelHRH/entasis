@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+/* Self-hosted fonts (no CDN request). */
+@import "@fontsource-variable/space-grotesk";
+@import "@fontsource/space-mono";
+
+/* Theme values first, then the semantic architecture that reads them. */
+@import "./styles/theme-dark.css";
+@import "./styles/tokens.css";
+
+body {
+  @apply bg-background text-foreground font-sans antialiased;
+}

@@ -1,0 +1,71 @@
+/* Semantic token architecture — theme-agnostic. Components use only these
+   roles (bg-background, text-muted-foreground, shadow-md, …); the concrete
+   colors and elevations resolve through the active theme file at runtime
+   (see theme-dark.css). Never name a hue in a component class. */
+
+/* Colors and elevation are wired inline so utilities reference the theme's
+   CSS variables — swapping the theme restyles everything live. */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --shadow-xs: var(--elevation-xs);
+  --shadow-sm: var(--elevation-sm);
+  --shadow-md: var(--elevation-md);
+  --shadow-lg: var(--elevation-lg);
+  --shadow-glow: var(--glow);
+}
+
+/* Structural tokens — shared by every theme. */
+@theme {
+  /* typography — Space Grotesk (UI + display), Space Mono (technical) */
+  --font-sans: "Space Grotesk Variable", "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, monospace;
+
+  /* modular scale, ratio 1.25 above xl; tight tracking at display sizes only */
+  --text-xs: 0.75rem;
+  --text-xs--line-height: 1rem;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.25rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.5rem;
+  --text-lg: 1.125rem;
+  --text-lg--line-height: 1.625rem;
+  --text-xl: 1.25rem;
+  --text-xl--line-height: 1.75rem;
+  --text-2xl: 1.5625rem;
+  --text-2xl--line-height: 2rem;
+  --text-2xl--letter-spacing: -0.01em;
+  --text-3xl: 1.953rem;
+  --text-3xl--line-height: 2.375rem;
+  --text-3xl--letter-spacing: -0.02em;
+  --text-4xl: 2.441rem;
+  --text-4xl--line-height: 2.75rem;
+  --text-4xl--letter-spacing: -0.02em;
+  --text-5xl: 3.052rem;
+  --text-5xl--line-height: 3.25rem;
+  --text-5xl--letter-spacing: -0.02em;
+
+  /* radii — all-soft system; outer = inner + padding when containers nest */
+  --radius-sm: 0.375rem; /* chips, small inner elements */
+  --radius-md: 0.625rem; /* buttons, inputs (the base) */
+  --radius-lg: 0.875rem; /* cards, message bubbles */
+  --radius-xl: 1.25rem; /* sheets, modals */
+}
