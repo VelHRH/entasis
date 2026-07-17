@@ -39,9 +39,10 @@ Rules:
   `ManagedRuntime` (in `lib/runtime.ts`); modules never create their own.
   Components and stores work with plain data and Promises.
 - **Cross-module imports go through a module's public files only** — its
-  stores and exported route names. Never import another module's
-  `*.service.ts`. (Conventional for now: the client has no ESLint yet, so the
-  rule is not machine-enforced.)
+  stores and exported route names (the `routeNames` constants in `router.ts`;
+  no string literals). Never import another module's `*.service.ts`.
+  (Conventional for now: the client has no ESLint yet, so the rule is not
+  machine-enforced.)
 - **One global `router.ts`.** No per-module route files until the screen count
   demands it.
 
@@ -62,10 +63,11 @@ table actually grows.
 ## Consequences
 
 - The Rooms and Chat verticals (#7, #8) each land as one folder under
-  `modules/`, with their own `*.store.ts` and `*.service.ts`.
+  `modules/`, with their own `*.store.ts` and `*.service.ts`. The placeholder
+  home screen lives in `modules/home` until the Rooms list (#7) replaces it.
 - Shared UI primitives extracted during the token pass (#6) go to `ui/`.
 - The Effect rule is grep-checkable:
-  `grep -rl "from \"effect\"\|@effect/" src` must list only `*.service.ts`
+  `grep -rlE "from ['\"](effect|@effect/)" src` must list only `*.service.ts`
   files and `lib/runtime.ts`.
 - Until ESLint lands, the cross-module import rule is enforced by review, not
   tooling.

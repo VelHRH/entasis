@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRouter } from "vue-router";
+import { routeNames } from "../../router";
 import { useSessionStore } from "../auth/session.store";
 
 const session = useSessionStore();
@@ -7,7 +8,7 @@ const router = useRouter();
 
 const logout = async () => {
   await session.logout();
-  await router.replace({ name: "auth" });
+  await router.replace({ name: routeNames.auth });
 };
 </script>
 

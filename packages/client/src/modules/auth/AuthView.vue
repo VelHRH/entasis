@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { routeNames } from "../../router";
 import { useSessionStore } from "./session.store";
 
 const session = useSessionStore();
@@ -31,7 +32,7 @@ const submit = async () => {
   pending.value = false;
   if (result.ok) {
     const redirect = route.query.redirect;
-    await router.replace(typeof redirect === "string" ? redirect : { name: "home" });
+    await router.replace(typeof redirect === "string" ? redirect : { name: routeNames.home });
   } else {
     error.value = result.message;
   }
