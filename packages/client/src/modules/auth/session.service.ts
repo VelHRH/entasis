@@ -1,5 +1,6 @@
 import { Effect } from "effect";
-import { runApi } from "../../lib/api-client";
+import type { ApiResult } from "../../lib/api-client";
+import { err, ok, runApi } from "../../lib/api-client";
 
 // Plain view of the current user for stores/components.
 export interface SessionUser {
@@ -12,12 +13,17 @@ export const toSessionUser = (user: SessionUser): SessionUser => ({
   email: user.email,
 });
 
-// Resolves the current user from the session cookie; null when logged out.
-export const me = (): Promise<SessionUser | null> =>
+// Resolves the current user from the session cookie. `ok` with null means a
+// real answer ("logged out"); `err` means we could not find out (server
+// unreachable, decode failure) — callers decide whether that distinction
+// matters to them.
+export const me = (): Promise<ApiResult<SessionUser | null>> =>
   runApi((client) =>
     client.users.me().pipe(
-      Effect.map(toSessionUser),
-      Effect.catchAll(() => Effect.succeed(null)),
+      Effect.map((user) => ok<SessionUser | null>(toSessionUser(user))),
+      // The endpoint's one declared failure: no/expired session cookie.
+      Effect.catchTag("UnauthorizedError", () => Effect.succeed(ok<SessionUser | null>(null))),
+      Effect.catchAll(() => Effect.succeed(err<SessionUser | null>("Can't reach the server"))),
     ),
   );
 

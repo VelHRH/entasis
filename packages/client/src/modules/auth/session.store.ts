@@ -14,7 +14,10 @@ export const useSessionStore = defineStore("session", {
   actions: {
     async resolve() {
       if (!this.resolved) {
-        this.user = await session.me();
+        const result = await session.me();
+        // An unreachable server is treated as logged out for guard purposes;
+        // screens that need the distinction read the result themselves.
+        this.user = result.ok ? result.data : null;
         this.resolved = true;
       }
       return this.user;
@@ -22,14 +25,14 @@ export const useSessionStore = defineStore("session", {
     async signUp(email: string, password: string) {
       const result = await auth.signUp(email, password);
       if (result.ok) {
-        this.user = result.user;
+        this.user = result.data;
       }
       return result;
     },
     async login(email: string, password: string) {
       const result = await auth.login(email, password);
       if (result.ok) {
-        this.user = result.user;
+        this.user = result.data;
       }
       return result;
     },

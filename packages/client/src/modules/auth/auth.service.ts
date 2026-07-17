@@ -1,14 +1,12 @@
 import type { AuthResponse } from "@entasis/domain/user/credentials";
 import { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { Effect, Redacted } from "effect";
-import type { ApiClient } from "../../lib/api-client";
-import { runApi } from "../../lib/api-client";
+import type { ApiClient, ApiResult } from "../../lib/api-client";
+import { err, ok, runApi } from "../../lib/api-client";
 import type { SessionUser } from "./session.service";
 import { toSessionUser } from "./session.service";
 
-export type AuthResult =
-  | { readonly ok: true; readonly user: SessionUser }
-  | { readonly ok: false; readonly message: string };
+export type AuthResult = ApiResult<SessionUser>;
 
 // CredentialsPayload validates on construction (email shape, password
 // length); surface those as the same kind of readable message as API errors.
@@ -36,8 +34,8 @@ const authCall = <E extends { readonly _tag: string; readonly message: string }>
           ),
         ),
       ),
-      Effect.map(({ user }): AuthResult => ({ ok: true, user: toSessionUser(user) })),
-      Effect.catchAll((error) => Effect.succeed<AuthResult>({ ok: false, message: error.message })),
+      Effect.map(({ user }) => ok(toSessionUser(user))),
+      Effect.catchAll((error) => Effect.succeed(err<SessionUser>(error.message))),
     ),
   );
 
