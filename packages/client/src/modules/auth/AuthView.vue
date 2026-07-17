@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { useSessionStore } from "../stores/session";
+import { routeNames } from "../../router";
+import { useSessionStore } from "./session.store";
 
 const session = useSessionStore();
 const router = useRouter();
@@ -23,14 +24,15 @@ const submit = async () => {
   pending.value = true;
   error.value = null;
 
-  const result = mode.value === "login"
-    ? await session.login(email.value, password.value)
-    : await session.signUp(email.value, password.value);
+  const result =
+    mode.value === "login"
+      ? await session.login(email.value, password.value)
+      : await session.signUp(email.value, password.value);
 
   pending.value = false;
   if (result.ok) {
     const redirect = route.query.redirect;
-    await router.replace(typeof redirect === "string" ? redirect : { name: "home" });
+    await router.replace(typeof redirect === "string" ? redirect : { name: routeNames.home });
   } else {
     error.value = result.message;
   }
@@ -76,7 +78,11 @@ const submit = async () => {
         {{ mode === "login" ? "Log in" : "Create account" }}
       </button>
 
-      <button type="button" class="w-full text-sm text-gray-500 hover:text-gray-700" @click="toggleMode">
+      <button
+        type="button"
+        class="w-full text-sm text-gray-500 hover:text-gray-700"
+        @click="toggleMode"
+      >
         {{ mode === "login" ? "No account yet? Sign up" : "Already have an account? Log in" }}
       </button>
     </form>
