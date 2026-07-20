@@ -1,8 +1,8 @@
+import { ChatService } from "#modules/chat/domain/service.js";
 import * as HttpApiBuilder from "@effect/platform/HttpApiBuilder";
 import { Api } from "@entasis/domain/api";
 import { CurrentUser } from "@entasis/domain/user/http";
 import * as Effect from "effect/Effect";
-import { ChatService } from "../domain/service.js";
 
 export const ChatsGroupLive = HttpApiBuilder.group(Api, "chats", (handlers) =>
   Effect.gen(function*() {

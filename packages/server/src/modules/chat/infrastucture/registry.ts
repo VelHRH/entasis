@@ -1,3 +1,4 @@
+import { ConnectionRegistry } from "#modules/chat/domain/registry.js";
 import type { ServerEvent } from "@entasis/domain/chat/protocol";
 import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
@@ -5,7 +6,6 @@ import * as HashMap from "effect/HashMap";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Ref from "effect/Ref";
-import { ConnectionRegistry } from "../domain/registry.js";
 
 type Send = (event: ServerEvent) => Effect.Effect<void>;
 

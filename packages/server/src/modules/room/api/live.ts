@@ -1,8 +1,8 @@
+import { RoomsService } from "#modules/room/domain/service.js";
 import * as HttpApiBuilder from "@effect/platform/HttpApiBuilder";
 import { Api } from "@entasis/domain/api";
 import { CurrentUser } from "@entasis/domain/user/http";
 import * as Effect from "effect/Effect";
-import { RoomsService } from "../domain/service.js";
 
 export const RoomsGroupLive = HttpApiBuilder.group(Api, "rooms", (handlers) =>
   Effect.gen(function*() {

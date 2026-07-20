@@ -1,11 +1,11 @@
+import { RoomsRepo } from "#modules/room/domain/repo.js";
+import { RoomsService } from "#modules/room/domain/service.js";
 import { NotRoomMemberError } from "@entasis/domain/room/errors";
 import type { RoomId } from "@entasis/domain/room/schema";
 import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
 import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
-import { RoomsRepo } from "../domain/repo.js";
-import { RoomsService } from "../domain/service.js";
 import { RoomsRepoLive } from "./repository.js";
 
 export const RoomsServiceLive = Layer.effect(RoomsService)(

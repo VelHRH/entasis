@@ -1,12 +1,15 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    // No baseUrl (deprecated in TS 6): paths resolve relative to this file,
-    // and the bare "src/..." imports get an explicit mapping instead.
+    // Resolve the package's own "#*" subpath imports (package.json "imports")
+    // to source under the "development" condition — the same condition tsx
+    // passes at dev/migrate/test time. The compiled build drops the condition
+    // and falls through to "./build/esm/*" (see package.json).
+    "customConditions": ["development"],
+    // No baseUrl (deprecated in TS 6): paths resolve relative to this file.
     "paths": {
       "@entasis/domain": ["../domain/src/index.js"],
-      "@entasis/domain/*": ["../domain/src/*.js"],
-      "src/*": ["./src/*"]
+      "@entasis/domain/*": ["../domain/src/*.js"]
     }
   }
 }

@@ -1,3 +1,5 @@
+import { PgLive } from "#db/pg-client.js";
+import { ChatsRepo, CreateMessageInput, FindDirectChatInput, MessagesRepo } from "#modules/chat/domain/repo.js";
 import * as SqlClient from "@effect/sql/SqlClient";
 import * as SqlSchema from "@effect/sql/SqlSchema";
 import { Chat, ChatId, ChatSummary, Message } from "@entasis/domain/chat/schema";
@@ -7,8 +9,6 @@ import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
-import { PgLive } from "src/db/pg-client.js";
-import { ChatsRepo, CreateMessageInput, FindDirectChatInput, MessagesRepo } from "../domain/repo.js";
 
 export const ChatsRepoLive = Layer.effect(
   ChatsRepo,

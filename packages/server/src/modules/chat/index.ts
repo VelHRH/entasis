@@ -1,5 +1,5 @@
+import { AuthServiceLive } from "#modules/user/infrastucture/service.js";
 import * as Layer from "effect/Layer";
-import { AuthServiceLive } from "../user/infrastucture/service.js";
 import { ChatsGroupLive } from "./api/live.js";
 import { ChatWsRouteLive } from "./api/ws.js";
 import { ConnectionRegistryLive } from "./infrastucture/registry.js";

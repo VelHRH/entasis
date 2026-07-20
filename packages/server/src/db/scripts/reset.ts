@@ -1,6 +1,6 @@
+import { PgLive } from "#db/pg-client.js";
 import { SqlClient, SqlSchema } from "@effect/sql";
 import { Effect, Schema } from "effect";
-import { PgLive } from "../pg-client.js";
 
 Effect.runPromise(
   Effect.gen(function*() {

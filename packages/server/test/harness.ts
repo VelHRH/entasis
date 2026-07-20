@@ -1,11 +1,11 @@
+import { runMigrations } from "#db/migrate.js";
+import { PgLive } from "#db/pg-client.js";
+import { AllRoutes } from "#http.js";
 import { Cookies, FetchHttpClient, HttpApiClient, HttpClient, HttpLayerRouter, HttpServer } from "@effect/platform";
 import { NodeContext, NodeHttpServer } from "@effect/platform-node";
 import { Api } from "@entasis/domain/api";
 import { Effect, Layer, Ref } from "effect";
 import { createServer } from "node:http";
-import { runMigrations } from "src/db/migrate.js";
-import { PgLive } from "src/db/pg-client.js";
-import { AllRoutes } from "src/http.js";
 
 // The api-seam test server: the exact route layer production serves, bound to
 // an ephemeral port against the test database (DATABASE_URL is pointed at it
