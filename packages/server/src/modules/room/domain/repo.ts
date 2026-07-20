@@ -1,5 +1,6 @@
 import type { RoomNotFoundError } from "@entasis/domain/room/errors";
 import { Room, RoomId } from "@entasis/domain/room/schema";
+import type { User } from "@entasis/domain/user/schema";
 import { UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
@@ -33,5 +34,6 @@ export class RoomsRepo extends Context.Tag("RoomsRepo")<
       roomId: RoomId,
       userIds: ReadonlyArray<UserId>,
     ) => Effect.Effect<ReadonlyArray<UserId>>;
+    readonly findMembers: (roomId: RoomId) => Effect.Effect<ReadonlyArray<User>>;
   }
 >() {}

@@ -1,3 +1,4 @@
+import { NotRoomMemberError } from "@entasis/domain/room/errors";
 import type { RoomId } from "@entasis/domain/room/schema";
 import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
 import type { UserId } from "@entasis/domain/user/schema";
@@ -30,11 +31,21 @@ export const RoomsServiceLive = Layer.effect(RoomsService)(
 
     const join = (roomId: RoomId, userId: UserId) => repo.addMember({ roomId, userId });
 
+    const members = (roomId: RoomId, requesterId: UserId) =>
+      Effect.gen(function*() {
+        const membership = yield* repo.membersAmong(roomId, [requesterId]);
+        if (membership.length === 0) {
+          return yield* new NotRoomMemberError({ roomId });
+        }
+        return yield* repo.findMembers(roomId);
+      });
+
     return {
       list,
       upsert,
       delete: deleteRoom,
       join,
+      members,
     };
   }),
 ).pipe(Layer.provide(RoomsRepoLive));

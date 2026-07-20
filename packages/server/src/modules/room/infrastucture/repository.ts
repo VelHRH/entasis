@@ -3,7 +3,7 @@ import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
 import { RoomNotFoundError } from "@entasis/domain/room/errors";
 import { Room, RoomId } from "@entasis/domain/room/schema";
-import { UserId } from "@entasis/domain/user/schema";
+import { User, UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
@@ -86,6 +86,27 @@ export const RoomsRepoLive = Layer.effect(
       `,
     });
 
+    const findMembers = SqlSchema.findAll({
+      Result: User,
+      Request: RoomId,
+      // Explicit columns (not u.*) keep password_hash out of the result set.
+      execute: (roomId) =>
+        sql`
+        SELECT
+          u.id,
+          u.email,
+          u.created_at,
+          u.updated_at
+        FROM
+          room_members rm
+          JOIN users u ON u.id = rm.user_id
+        WHERE
+          rm.room_id = ${roomId}
+        ORDER BY
+          rm.created_at
+      `,
+    });
+
     const del = SqlSchema.single({
       Request: RoomId,
       Result: Schema.Unknown,
@@ -136,6 +157,7 @@ export const RoomsRepoLive = Layer.effect(
           Effect.map((rows) => rows.map((row) => row.userId)),
           Effect.orDie,
         ),
+      findMembers: flow(findMembers, Effect.orDie),
     };
   }),
 ).pipe(Layer.provide(PgLive));

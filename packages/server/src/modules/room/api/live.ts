@@ -10,6 +10,7 @@ export const RoomsGroupLive = HttpApiBuilder.group(Api, "rooms", (handlers) =>
 
     return handlers
       .handle("list", () => service.list())
+      .handle("members", ({ path }) => Effect.flatMap(CurrentUser, (user) => service.members(path.roomId, user.id)))
       .handle("upsert", ({ payload }) => service.upsert(payload))
       .handle("join", ({ payload }) => Effect.flatMap(CurrentUser, (user) => service.join(payload.id, user.id)))
       .handle("delete", ({ payload }) => service.delete(payload.id));
