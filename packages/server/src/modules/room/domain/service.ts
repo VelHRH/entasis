@@ -1,7 +1,7 @@
-import type { RoomNotFoundError } from "@entasis/domain/room/errors";
+import type { NotRoomMemberError, RoomNotFoundError } from "@entasis/domain/room/errors";
 import type { Room, RoomId } from "@entasis/domain/room/schema";
 import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
-import type { UserId } from "@entasis/domain/user/schema";
+import type { User, UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 
@@ -18,5 +18,10 @@ export class RoomsService extends Context.Tag("RoomsService")<
       roomId: RoomId,
       userId: UserId,
     ) => Effect.Effect<void, RoomNotFoundError>;
+    /** Lists a room's members; only members may read the roster. */
+    readonly members: (
+      roomId: RoomId,
+      requesterId: UserId,
+    ) => Effect.Effect<ReadonlyArray<User>, NotRoomMemberError>;
   }
 >() {}

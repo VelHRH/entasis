@@ -1,7 +1,8 @@
 import { HttpApiEndpoint, HttpApiGroup } from "@effect/platform";
 import * as Schema from "effect/Schema";
+import { NotRoomMemberError } from "../room/errors.js";
 import { Authorization } from "../user/http.js";
-import { ChatNotFoundError, NotRoomMemberError } from "./errors.js";
+import { ChatNotFoundError } from "./errors.js";
 import { OpenChatPayload } from "./open-chat.js";
 import { Chat, ChatId, Message } from "./schema.js";
 

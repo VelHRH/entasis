@@ -34,7 +34,7 @@ const submit = async () => {
   pending.value = false;
   if (result.ok) {
     const redirect = route.query.redirect;
-    await router.replace(typeof redirect === "string" ? redirect : { name: routeNames.home });
+    await router.replace(typeof redirect === "string" ? redirect : { name: routeNames.rooms });
   } else {
     error.value = result.message;
   }

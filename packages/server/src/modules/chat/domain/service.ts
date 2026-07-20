@@ -1,7 +1,8 @@
-import type { ChatNotFoundError, NotRoomMemberError } from "@entasis/domain/chat/errors";
+import type { ChatNotFoundError } from "@entasis/domain/chat/errors";
 import type { OpenChatPayload } from "@entasis/domain/chat/open-chat";
 import type { SendMessage } from "@entasis/domain/chat/protocol";
 import type { Chat, ChatId, Message } from "@entasis/domain/chat/schema";
+import type { NotRoomMemberError } from "@entasis/domain/room/errors";
 import type { UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
