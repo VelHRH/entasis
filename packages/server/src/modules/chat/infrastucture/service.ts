@@ -1,3 +1,8 @@
+import { ConnectionRegistry } from "#modules/chat/domain/registry.js";
+import { ChatsRepo, MessagesRepo } from "#modules/chat/domain/repo.js";
+import { ChatService } from "#modules/chat/domain/service.js";
+import { RoomsRepo } from "#modules/room/domain/repo.js";
+import { RoomsRepoLive } from "#modules/room/infrastucture/repository.js";
 import { ChatNotFoundError } from "@entasis/domain/chat/errors";
 import type { OpenChatPayload } from "@entasis/domain/chat/open-chat";
 import { MessageReceived, type SendMessage } from "@entasis/domain/chat/protocol";
@@ -7,11 +12,6 @@ import type { UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
-import { RoomsRepo } from "src/modules/room/domain/repo.js";
-import { RoomsRepoLive } from "src/modules/room/infrastucture/repository.js";
-import { ConnectionRegistry } from "../domain/registry.js";
-import { ChatsRepo, MessagesRepo } from "../domain/repo.js";
-import { ChatService } from "../domain/service.js";
 import { ChatsRepoLive, MessagesRepoLive } from "./repository.js";
 
 export const ChatServiceLive = Layer.effect(ChatService)(

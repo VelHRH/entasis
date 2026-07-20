@@ -1,3 +1,6 @@
+import { AuthResult } from "#modules/user/domain/dto/auth-result.js";
+import { SessionsRepo, UsersRepo } from "#modules/user/domain/repo.js";
+import { AuthService, SESSION_TTL } from "#modules/user/domain/service.js";
 import type { CredentialsPayload } from "@entasis/domain/user/credentials";
 import { InvalidCredentialsError, UnauthorizedError } from "@entasis/domain/user/errors";
 import { User, type UserId } from "@entasis/domain/user/schema";
@@ -7,9 +10,6 @@ import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
 import { createHash, randomBytes, scrypt, timingSafeEqual } from "node:crypto";
-import { AuthResult } from "../domain/dto/auth-result.js";
-import { SessionsRepo, UsersRepo } from "../domain/repo.js";
-import { AuthService, SESSION_TTL } from "../domain/service.js";
 import { SessionsRepoLive, UsersRepoLive } from "./repository.js";
 
 const KEY_LENGTH = 64;

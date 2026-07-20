@@ -1,7 +1,7 @@
+import { Authorization } from "#user/http.js";
+import { User } from "#user/schema.js";
 import { HttpApiEndpoint, HttpApiGroup } from "@effect/platform";
 import * as Schema from "effect/Schema";
-import { Authorization } from "../user/http.js";
-import { User } from "../user/schema.js";
 import { NotRoomMemberError, RoomNotFoundError } from "./errors.js";
 import { Room, RoomId } from "./schema.js";
 import { UpsertRoomPayload } from "./upsert.js";

@@ -1,3 +1,6 @@
+import { ConnectionRegistry } from "#modules/chat/domain/registry.js";
+import { ChatService } from "#modules/chat/domain/service.js";
+import { AuthService } from "#modules/user/domain/service.js";
 import { HttpLayerRouter, HttpServerRequest, HttpServerResponse } from "@effect/platform";
 import {
   ClientEventFromJson,
@@ -9,9 +12,6 @@ import type { User } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";
-import { AuthService } from "src/modules/user/domain/service.js";
-import { ConnectionRegistry } from "../domain/registry.js";
-import { ChatService } from "../domain/service.js";
 
 const decodeClientEvent = Schema.decode(ClientEventFromJson);
 const encodeServerEvent = Schema.encode(ServerEventFromJson);

@@ -1,7 +1,7 @@
+import { runMigrations, schemaDirectory } from "#db/migrate.js";
+import { PgLive } from "#db/pg-client.js";
 import { NodeContext, NodeRuntime } from "@effect/platform-node";
 import { Effect } from "effect";
-import { runMigrations, schemaDirectory } from "../migrate.js";
-import { PgLive } from "../pg-client.js";
 
 NodeRuntime.runMain(
   Effect.gen(function*() {
