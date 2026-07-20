@@ -5,10 +5,15 @@
     "types": ["vite/client"],
     "allowArbitraryExtensions": true,
 
+    /* Absolute imports from the client source root (ADR-0003); mirrored in
+       vite.config.ts for the bundler. */
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]

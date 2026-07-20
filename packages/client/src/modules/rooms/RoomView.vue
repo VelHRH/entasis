@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { routeNames } from "../../router";
-import { useSessionStore } from "../auth/session.store";
-import { useChatStore } from "../chat/chat.store";
-import Button from "../../ui/Button.vue";
+import { routeNames } from "@/router";
+import { useSessionStore } from "@/modules/auth/session.store";
+import { useChatStore } from "@/modules/chat/chat.store";
+import Button from "@/ui/Button.vue";
+import { ButtonVariant } from "@/ui/button";
 import { useRoomsStore } from "./rooms.store";
 
 const props = defineProps<{ roomId: string }>();
@@ -101,7 +102,7 @@ const message = async (partnerId: string) => {
             </span>
             <Button
               v-else
-              variant="secondary"
+              :variant="ButtonVariant.Secondary"
               class="shrink-0"
               :disabled="openingPartnerId === member.id"
               @click="message(member.id)"

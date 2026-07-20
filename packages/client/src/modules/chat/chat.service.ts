@@ -2,8 +2,8 @@ import { OpenChatPayload } from "@entasis/domain/chat/open-chat";
 import type { ChatSummary, Message } from "@entasis/domain/chat/schema";
 import { ChatId } from "@entasis/domain/chat/schema";
 import { DateTime, Effect, Schema } from "effect";
-import type { ApiResult } from "../../lib/api-client";
-import { err, ok, runApi } from "../../lib/api-client";
+import type { ApiResult } from "@/lib/api-client";
+import { err, ok, runApi } from "@/lib/api-client";
 
 // Plain views for the store/components: no branded ids, no Effect DateTime.
 export interface MessageView {

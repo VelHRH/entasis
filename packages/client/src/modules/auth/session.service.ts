@@ -1,6 +1,6 @@
 import { Effect } from "effect";
-import type { ApiResult } from "../../lib/api-client";
-import { err, ok, runApi } from "../../lib/api-client";
+import type { ApiResult } from "@/lib/api-client";
+import { err, ok, runApi } from "@/lib/api-client";
 
 // Plain view of the current user for stores/components.
 export interface SessionUser {

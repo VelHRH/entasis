@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { useSessionStore } from "./modules/auth/session.store";
-import AuthView from "./modules/auth/AuthView.vue";
-import ChatView from "./modules/chat/ChatView.vue";
-import MyChatsView from "./modules/chat/MyChatsView.vue";
-import RoomsView from "./modules/rooms/RoomsView.vue";
-import RoomView from "./modules/rooms/RoomView.vue";
+import { useSessionStore } from "@/modules/auth/session.store";
+import AuthView from "@/modules/auth/AuthView.vue";
+import ChatView from "@/modules/chat/ChatView.vue";
+import MyChatsView from "@/modules/chat/MyChatsView.vue";
+import RoomsView from "@/modules/rooms/RoomsView.vue";
+import RoomView from "@/modules/rooms/RoomView.vue";
 
 // Route names are part of each module's public surface (ADR-0002): navigate
 // with these constants, never with string literals.

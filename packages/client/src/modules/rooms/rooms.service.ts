@@ -2,8 +2,8 @@ import type { Room } from "@entasis/domain/room/schema";
 import { RoomId } from "@entasis/domain/room/schema";
 import type { User } from "@entasis/domain/user/schema";
 import { Effect, Schema } from "effect";
-import type { ApiResult } from "../../lib/api-client";
-import { err, ok, runApi } from "../../lib/api-client";
+import type { ApiResult } from "@/lib/api-client";
+import { err, ok, runApi } from "@/lib/api-client";
 
 // Plain views handed to the store/components: no branded ids, no Effect
 // DateTime — components work with strings only (ADR-0002).

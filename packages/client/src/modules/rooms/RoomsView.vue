@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { routeNames } from "../../router";
-import { useSessionStore } from "../auth/session.store";
-import Button from "../../ui/Button.vue";
-import Input from "../../ui/Input.vue";
+import { routeNames } from "@/router";
+import { useSessionStore } from "@/modules/auth/session.store";
+import Button from "@/ui/Button.vue";
+import { ButtonVariant } from "@/ui/button";
+import Input from "@/ui/Input.vue";
 import { useRoomsStore } from "./rooms.store";
 
 const session = useSessionStore();
@@ -63,7 +64,7 @@ const logout = async () => {
         >
           My chats
         </RouterLink>
-        <Button variant="secondary" @click="logout">Log out</Button>
+        <Button :variant="ButtonVariant.Secondary" @click="logout">Log out</Button>
       </div>
     </header>
 
@@ -98,7 +99,7 @@ const logout = async () => {
         >
           <span class="min-w-0 flex-1 truncate font-medium">{{ room.name }}</span>
           <div class="flex shrink-0 gap-2">
-            <Button variant="secondary" @click="open(room.id)">Open</Button>
+            <Button :variant="ButtonVariant.Secondary" @click="open(room.id)">Open</Button>
             <Button :disabled="joiningId === room.id" @click="join(room.id)">
               {{ joiningId === room.id ? "Joining…" : "Join" }}
             </Button>

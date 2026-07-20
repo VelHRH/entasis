@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
-import { routeNames } from "../../router";
+import { routeNames } from "@/router";
 import { useChatStore } from "./chat.store";
 
 const store = useChatStore();
