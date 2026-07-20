@@ -10,6 +10,7 @@ export const ChatsGroupLive = HttpApiBuilder.group(Api, "chats", (handlers) =>
 
     return handlers
       .handle("open", ({ payload }) => Effect.flatMap(CurrentUser, (user) => service.openChat(user.id, payload)))
+      .handle("myChats", () => Effect.flatMap(CurrentUser, (user) => service.myChats(user.id)))
       .handle("messages", ({ path }) =>
         Effect.flatMap(CurrentUser, (user) => service.listMessages(user.id, path.chatId)));
   }));

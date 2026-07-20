@@ -1,8 +1,8 @@
 import * as SqlClient from "@effect/sql/SqlClient";
 import * as SqlSchema from "@effect/sql/SqlSchema";
-import { Chat, ChatId, Message } from "@entasis/domain/chat/schema";
+import { Chat, ChatId, ChatSummary, Message } from "@entasis/domain/chat/schema";
 import { RoomId } from "@entasis/domain/room/schema";
-import { UserId } from "@entasis/domain/user/schema";
+import { User, UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";
@@ -65,8 +65,66 @@ export const ChatsRepoLive = Layer.effect(
       `,
     });
 
+    // Flat projection of a chat + its partner; reassembled into the nested
+    // ChatSummary below (SqlSchema decodes columns, not nested objects).
+    const ChatSummaryRow = Schema.Struct({
+      id: ChatId,
+      roomId: RoomId,
+      createdAt: Schema.DateTimeUtc,
+      partnerId: UserId,
+      partnerEmail: Schema.String,
+      partnerCreatedAt: Schema.DateTimeUtc,
+      partnerUpdatedAt: Schema.DateTimeUtc,
+    });
+
+    const listSummariesByUser = SqlSchema.findAll({
+      Result: ChatSummaryRow,
+      Request: UserId,
+      // The "me" join pins the chats the user belongs to; "partner" is the
+      // other member of each (direct chats have exactly two).
+      execute: (userId) =>
+        sql`
+        SELECT
+          chats.id,
+          chats.room_id,
+          chats.created_at,
+          partner.id AS partner_id,
+          partner.email AS partner_email,
+          partner.created_at AS partner_created_at,
+          partner.updated_at AS partner_updated_at
+        FROM
+          chats
+          INNER JOIN chat_members me ON me.chat_id = chats.id
+          AND me.user_id = ${userId}
+          INNER JOIN chat_members other ON other.chat_id = chats.id
+          AND other.user_id <> ${userId}
+          INNER JOIN users partner ON partner.id = other.user_id
+        ORDER BY
+          chats.created_at DESC
+      `,
+    });
+
     return {
       findDirect: flow(findDirect, Effect.orDie),
+      listSummariesByUser: flow(
+        listSummariesByUser,
+        Effect.map((rows) =>
+          rows.map((row) =>
+            new ChatSummary({
+              id: row.id,
+              roomId: row.roomId,
+              createdAt: row.createdAt,
+              partner: new User({
+                id: row.partnerId,
+                email: row.partnerEmail,
+                createdAt: row.partnerCreatedAt,
+                updatedAt: row.partnerUpdatedAt,
+              }),
+            })
+          )
+        ),
+        Effect.orDie,
+      ),
       create: (roomId: RoomId, members: ReadonlyArray<UserId>) =>
         Effect.gen(function*() {
           const chat = yield* insertChat(roomId);

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 import { useSessionStore } from "./modules/auth/session.store";
 import AuthView from "./modules/auth/AuthView.vue";
+import ChatView from "./modules/chat/ChatView.vue";
+import MyChatsView from "./modules/chat/MyChatsView.vue";
 import RoomsView from "./modules/rooms/RoomsView.vue";
 import RoomView from "./modules/rooms/RoomView.vue";
 
@@ -9,6 +11,8 @@ import RoomView from "./modules/rooms/RoomView.vue";
 export const routeNames = {
   rooms: "rooms",
   room: "room",
+  chats: "chats",
+  chat: "chat",
   auth: "auth",
 } as const;
 
@@ -17,6 +21,8 @@ export const router = createRouter({
   routes: [
     { path: "/", name: routeNames.rooms, component: RoomsView },
     { path: "/rooms/:roomId", name: routeNames.room, component: RoomView, props: true },
+    { path: "/chats", name: routeNames.chats, component: MyChatsView },
+    { path: "/chats/:chatId", name: routeNames.chat, component: ChatView, props: true },
     { path: "/auth", name: routeNames.auth, component: AuthView, meta: { public: true } },
     { path: "/:pathMatch(.*)*", redirect: "/" },
   ],

@@ -1,6 +1,6 @@
 import * as Schema from "effect/Schema";
 import { RoomId } from "../room/schema.js";
-import { UserId } from "../user/schema.js";
+import { User, UserId } from "../user/schema.js";
 
 export const ChatId = Schema.UUID.pipe(Schema.brand("ChatId"));
 export type ChatId = typeof ChatId.Type;
@@ -8,6 +8,16 @@ export type ChatId = typeof ChatId.Type;
 export class Chat extends Schema.Class<Chat>("Chat")({
   id: ChatId,
   roomId: RoomId,
+  createdAt: Schema.DateTimeUtc,
+}) {}
+
+// A direct chat plus its other participant, so the "my chats" surface can show
+// who each dialog is with without a second round-trip. Direct chats have
+// exactly two members, so there is always exactly one partner.
+export class ChatSummary extends Schema.Class<ChatSummary>("ChatSummary")({
+  id: ChatId,
+  roomId: RoomId,
+  partner: User,
   createdAt: Schema.DateTimeUtc,
 }) {}
 

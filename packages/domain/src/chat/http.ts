@@ -4,7 +4,7 @@ import { NotRoomMemberError } from "../room/errors.js";
 import { Authorization } from "../user/http.js";
 import { ChatNotFoundError } from "./errors.js";
 import { OpenChatPayload } from "./open-chat.js";
-import { Chat, ChatId, Message } from "./schema.js";
+import { Chat, ChatId, ChatSummary, Message } from "./schema.js";
 
 export class ChatsGroup extends HttpApiGroup.make("chats")
   .add(
@@ -13,6 +13,9 @@ export class ChatsGroup extends HttpApiGroup.make("chats")
       .addSuccess(Chat)
       .addError(NotRoomMemberError),
   )
+  // The current user's direct chats, so they can return to a dialog after
+  // leaving or re-logging.
+  .add(HttpApiEndpoint.get("myChats", "/").addSuccess(Schema.Array(ChatSummary)))
   .add(
     HttpApiEndpoint.get("messages", "/:chatId/messages")
       .setPath(Schema.Struct({ chatId: ChatId }))
