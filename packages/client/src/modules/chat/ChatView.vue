@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
-import { routeNames } from "../../router";
-import { useSessionStore } from "../auth/session.store";
-import Button from "../../ui/Button.vue";
-import Input from "../../ui/Input.vue";
+import { routeNames } from "@/router";
+import { useSessionStore } from "@/modules/auth/session.store";
+import Button from "@/ui/Button.vue";
+import Input from "@/ui/Input.vue";
 import { useChatStore } from "./chat.store";
 
 const props = defineProps<{ chatId: string }>();
