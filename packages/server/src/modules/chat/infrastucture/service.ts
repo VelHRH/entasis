@@ -59,6 +59,8 @@ export const ChatServiceLive = Layer.effect(ChatService)(
         Effect.flatMap(() => messagesRepo.listByChat(chatId)),
       );
 
+    const myChats = (userId: UserId) => chatsRepo.listSummariesByUser(userId);
+
     const sendMessage = (userId: UserId, input: SendMessage) =>
       Effect.gen(function*() {
         const members = yield* requireMembers(input.chatId, userId);
@@ -75,6 +77,7 @@ export const ChatServiceLive = Layer.effect(ChatService)(
     return {
       openChat,
       listMessages,
+      myChats,
       sendMessage,
     };
   }),

@@ -56,7 +56,15 @@ const logout = async () => {
         <h1 class="text-2xl font-medium">Rooms</h1>
         <p class="mt-1 text-sm text-muted-foreground">Pick where to spend the night.</p>
       </div>
-      <Button variant="secondary" @click="logout">Log out</Button>
+      <div class="flex shrink-0 items-center gap-3">
+        <RouterLink
+          :to="{ name: routeNames.chats }"
+          class="text-sm text-muted-foreground transition hover:text-foreground"
+        >
+          My chats
+        </RouterLink>
+        <Button variant="secondary" @click="logout">Log out</Button>
+      </div>
     </header>
 
     <!-- Dev-only stopgap: creating rooms becomes admin-only once roles land. -->

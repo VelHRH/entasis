@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
+import { useRouter } from "vue-router";
 import { routeNames } from "../../router";
 import { useSessionStore } from "../auth/session.store";
+import { useChatStore } from "../chat/chat.store";
 import Button from "../../ui/Button.vue";
 import { useRoomsStore } from "./rooms.store";
 
@@ -9,8 +11,12 @@ const props = defineProps<{ roomId: string }>();
 
 const session = useSessionStore();
 const store = useRoomsStore();
+const chat = useChatStore();
+const router = useRouter();
 
 const joining = ref(false);
+const openingPartnerId = ref<string | null>(null);
+const chatError = ref<string | null>(null);
 
 // The members endpoint returns only the roster, not the room itself; borrow
 // the name from the list if the user came through it (unknown on a deep link).
@@ -35,6 +41,17 @@ const join = async () => {
   const result = await store.joinRoom(props.roomId);
   joining.value = false;
   if (result.ok) await load();
+};
+
+// Open (or return to) the direct chat with a member and go straight to it.
+const message = async (partnerId: string) => {
+  if (openingPartnerId.value) return;
+  openingPartnerId.value = partnerId;
+  chatError.value = null;
+  const result = await chat.openChat(props.roomId, partnerId);
+  openingPartnerId.value = null;
+  if (result.ok) await router.push({ name: routeNames.chat, params: { chatId: result.data } });
+  else chatError.value = result.message;
 };
 </script>
 
@@ -68,20 +85,29 @@ const join = async () => {
         <h2 class="text-sm font-medium text-muted-foreground">
           Members ({{ store.members.length }})
         </h2>
+        <p v-if="chatError" role="alert" class="mt-2 text-sm text-destructive">{{ chatError }}</p>
         <ul class="mt-4 space-y-2">
           <li
             v-for="member in store.members"
             :key="member.id"
             class="flex items-center justify-between gap-3 rounded-lg border border-border bg-card p-4 shadow-sm"
           >
-            <span class="min-w-0 truncate">{{ member.email }}</span>
+            <span class="min-w-0 flex-1 truncate">{{ member.email }}</span>
             <span
               v-if="member.id === session.user?.id"
               class="shrink-0 text-xs text-muted-foreground"
             >
               you
             </span>
-            <!-- The "message" action that opens a 1-on-1 chat arrives in #8. -->
+            <Button
+              v-else
+              variant="secondary"
+              class="shrink-0"
+              :disabled="openingPartnerId === member.id"
+              @click="message(member.id)"
+            >
+              {{ openingPartnerId === member.id ? "Opening…" : "Message" }}
+            </Button>
           </li>
         </ul>
       </template>
