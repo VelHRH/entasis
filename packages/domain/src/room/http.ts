@@ -3,11 +3,11 @@ import { User } from "#user/schema.js";
 import { HttpApiEndpoint, HttpApiGroup } from "@effect/platform";
 import * as Schema from "effect/Schema";
 import { NotRoomMemberError, RoomNotFoundError } from "./errors.js";
-import { Room, RoomId } from "./schema.js";
+import { Room, RoomId, RoomListItem } from "./schema.js";
 import { UpsertRoomPayload } from "./upsert.js";
 
 export class RoomsGroup extends HttpApiGroup.make("rooms")
-  .add(HttpApiEndpoint.get("list", "/").addSuccess(Schema.Array(Room)))
+  .add(HttpApiEndpoint.get("list", "/").addSuccess(Schema.Array(RoomListItem)))
   // Only members may read a room's roster, so a non-member cannot enumerate
   // who is inside a room they have not joined.
   .add(

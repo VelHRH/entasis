@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
-import { routeNames } from "@/router";
+import { RouteName, routeName } from "@/router";
 import { useSessionStore } from "@/modules/auth/session.store";
-import Button from "@/ui/Button.vue";
-import { ButtonVariant } from "@/ui/button";
+import Button from "@/ui/button/Button.vue";
+import { ButtonVariant } from "@/ui/button/button-variant";
 import Input from "@/ui/Input.vue";
 import { useRoomsStore } from "./rooms.store";
+import ButtonLink from "@/ui/ButtonLink.vue";
 
 const session = useSessionStore();
 const store = useRoomsStore();
@@ -19,7 +20,8 @@ const joiningId = ref<string | null>(null);
 
 onMounted(() => store.loadRooms());
 
-const open = (roomId: string) => router.push({ name: routeNames.room, params: { roomId } });
+const open = (roomId: string) =>
+  router.push({ name: routeName(RouteName.ROOM), params: { roomId } });
 
 const join = async (roomId: string) => {
   if (joiningId.value) return;
@@ -46,7 +48,7 @@ const create = async () => {
 
 const logout = async () => {
   await session.logout();
-  await router.replace({ name: routeNames.auth });
+  await router.replace({ name: routeName(RouteName.AUTH) });
 };
 </script>
 
@@ -54,23 +56,18 @@ const logout = async () => {
   <main class="mx-auto min-h-dvh w-full max-w-2xl px-5 py-10 sm:px-6 sm:py-14">
     <header class="flex items-center justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-medium">Rooms</h1>
-        <p class="mt-1 text-sm text-muted-foreground">Pick where to spend the night.</p>
+        <h1 class="font-medium">Rooms</h1>
+        <p class="mt-1 text-caption text-muted-foreground">Pick where to spend the night.</p>
       </div>
       <div class="flex shrink-0 items-center gap-3">
-        <RouterLink
-          :to="{ name: routeNames.chats }"
-          class="text-sm text-muted-foreground transition hover:text-foreground"
-        >
-          My chats
-        </RouterLink>
-        <Button :variant="ButtonVariant.Secondary" @click="logout">Log out</Button>
+        <ButtonLink :to="{ name: routeName(RouteName.CHATS) }"> My chats </ButtonLink>
+        <Button :variant="ButtonVariant.SECONDARY" @click="logout">Log out</Button>
       </div>
     </header>
 
     <!-- Dev-only stopgap: creating rooms becomes admin-only once roles land. -->
     <form
-      class="mt-8 flex flex-col gap-3 rounded-lg border border-dashed border-border bg-card p-4 sm:flex-row sm:items-end"
+      class="mt-8 flex flex-col gap-3 rounded-md border border-dashed border-border bg-card p-4 sm:flex-row sm:items-end"
       @submit.prevent="create"
     >
       <div class="flex-1">
@@ -78,16 +75,18 @@ const logout = async () => {
       </div>
       <Button type="submit" :disabled="creating || !newRoomName.trim()">Create</Button>
     </form>
-    <p v-if="createError" role="alert" class="mt-2 text-sm text-destructive">{{ createError }}</p>
+    <p v-if="createError" role="alert" class="mt-2 text-caption text-destructive">
+      {{ createError }}
+    </p>
 
     <section class="mt-10">
-      <p v-if="store.roomsLoading" class="text-sm text-muted-foreground">Loading rooms…</p>
+      <p v-if="store.roomsLoading" class="text-caption text-muted-foreground">Loading rooms…</p>
 
-      <p v-else-if="store.roomsError" role="alert" class="text-sm text-destructive">
+      <p v-else-if="store.roomsError" role="alert" class="text-caption text-destructive">
         {{ store.roomsError }}
       </p>
 
-      <p v-else-if="store.rooms.length === 0" class="text-sm text-muted-foreground">
+      <p v-else-if="store.rooms.length === 0" class="text-caption text-muted-foreground">
         No rooms yet. Create the first one above.
       </p>
 
@@ -95,12 +94,12 @@ const logout = async () => {
         <li
           v-for="room in store.rooms"
           :key="room.id"
-          class="flex items-center justify-between gap-4 rounded-lg border border-border bg-card p-4 shadow-sm"
+          class="flex items-center justify-between gap-4 rounded-md border border-border bg-card p-4 shadow-sm"
         >
           <span class="min-w-0 flex-1 truncate font-medium">{{ room.name }}</span>
           <div class="flex shrink-0 gap-2">
-            <Button :variant="ButtonVariant.Secondary" @click="open(room.id)">Open</Button>
-            <Button :disabled="joiningId === room.id" @click="join(room.id)">
+            <Button :variant="ButtonVariant.SECONDARY" @click="open(room.id)">Open</Button>
+            <Button v-if="!room.joined" :disabled="joiningId === room.id" @click="join(room.id)">
               {{ joiningId === room.id ? "Joining…" : "Join" }}
             </Button>
           </div>

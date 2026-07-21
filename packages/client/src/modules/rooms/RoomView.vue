@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
 import { useRouter } from "vue-router";
-import { routeNames } from "@/router";
+import { RouteName, routeName } from "@/router";
 import { useSessionStore } from "@/modules/auth/session.store";
 import { useChatStore } from "@/modules/chat/chat.store";
-import Button from "@/ui/Button.vue";
-import { ButtonVariant } from "@/ui/button";
+import Button from "@/ui/button/Button.vue";
+import { ButtonVariant } from "@/ui/button/button-variant";
 import { useRoomsStore } from "./rooms.store";
+import ButtonLink from "@/ui/ButtonLink.vue";
 
 const props = defineProps<{ roomId: string }>();
 
@@ -51,58 +52,61 @@ const message = async (partnerId: string) => {
   chatError.value = null;
   const result = await chat.openChat(props.roomId, partnerId);
   openingPartnerId.value = null;
-  if (result.ok) await router.push({ name: routeNames.chat, params: { chatId: result.data } });
+  if (result.ok)
+    await router.push({ name: routeName(RouteName.CHAT), params: { chatId: result.data } });
   else chatError.value = result.message;
 };
 </script>
 
 <template>
   <main class="mx-auto min-h-dvh w-full max-w-2xl px-5 py-10 sm:px-6 sm:py-14">
-    <RouterLink
-      :to="{ name: routeNames.rooms }"
-      class="text-sm text-muted-foreground transition hover:text-foreground"
+    <ButtonLink
+      :to="{ name: routeName(RouteName.ROOMS) }"
+      class="text-caption text-muted-foreground transition hover:text-foreground"
     >
       ← All rooms
-    </RouterLink>
+    </ButtonLink>
 
-    <h1 class="mt-4 truncate text-2xl font-medium">{{ roomName }}</h1>
+    <h1 class="mt-4 truncate font-medium">{{ roomName }}</h1>
 
     <section class="mt-8">
-      <p v-if="store.membersLoading" class="text-sm text-muted-foreground">Loading members…</p>
+      <p v-if="store.membersLoading" class="text-caption text-muted-foreground">Loading members…</p>
 
-      <p v-else-if="store.membersError" role="alert" class="text-sm text-destructive">
+      <p v-else-if="store.membersError" role="alert" class="text-caption text-destructive">
         {{ store.membersError }}
       </p>
 
       <!-- Non-members never see the roster — just an invitation to join. -->
-      <div v-else-if="store.joined === false" class="rounded-lg border border-border bg-card p-6">
-        <p class="text-sm text-muted-foreground">You haven't joined this room yet.</p>
+      <div v-else-if="store.joined === false" class="rounded-md border border-border bg-card p-6">
+        <p class="text-caption text-muted-foreground">You haven't joined this room yet.</p>
         <Button class="mt-4" :disabled="joining" @click="join">
           {{ joining ? "Joining…" : "Join room" }}
         </Button>
       </div>
 
       <template v-else>
-        <h2 class="text-sm font-medium text-muted-foreground">
+        <h2 class="text-caption font-medium text-muted-foreground">
           Members ({{ store.members.length }})
         </h2>
-        <p v-if="chatError" role="alert" class="mt-2 text-sm text-destructive">{{ chatError }}</p>
+        <p v-if="chatError" role="alert" class="mt-2 text-caption text-destructive">
+          {{ chatError }}
+        </p>
         <ul class="mt-4 space-y-2">
           <li
             v-for="member in store.members"
             :key="member.id"
-            class="flex items-center justify-between gap-3 rounded-lg border border-border bg-card p-4 shadow-sm"
+            class="flex items-center justify-between gap-3 rounded-md border border-border bg-card p-4 shadow-sm"
           >
             <span class="min-w-0 flex-1 truncate">{{ member.email }}</span>
             <span
               v-if="member.id === session.user?.id"
-              class="shrink-0 text-xs text-muted-foreground"
+              class="shrink-0 text-caption text-muted-foreground"
             >
               you
             </span>
             <Button
               v-else
-              :variant="ButtonVariant.Secondary"
+              :variant="ButtonVariant.SECONDARY"
               class="shrink-0"
               :disabled="openingPartnerId === member.id"
               @click="message(member.id)"

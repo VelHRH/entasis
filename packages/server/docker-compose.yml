@@ -12,6 +12,12 @@ services:
       - 5433:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      # Lets `docker compose up --wait` block until Postgres accepts connections.
+      test: ["CMD-SHELL", "pg_isready -U postgres -d entasis"]
+      interval: 2s
+      timeout: 3s
+      retries: 15
 
 volumes:
   postgres_data:

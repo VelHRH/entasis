@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { routeNames } from "@/router";
+import { RouteName, routeName } from "@/router";
 import { useSessionStore } from "./session.store";
-import Button from "@/ui/Button.vue";
+import Button from "@/ui/button/Button.vue";
+import { ButtonVariant } from "@/ui/button/button-variant";
 import Input from "@/ui/Input.vue";
 
-// The auth screen mode: a fixed value set, so a string enum (ADR-0004).
 enum AuthMode {
   Login = "login",
   Signup = "signup",
@@ -40,7 +40,9 @@ const submit = async () => {
   pending.value = false;
   if (result.ok) {
     const redirect = route.query.redirect;
-    await router.replace(typeof redirect === "string" ? redirect : { name: routeNames.rooms });
+    await router.replace(
+      typeof redirect === "string" ? redirect : { name: routeName(RouteName.ROOMS) },
+    );
   } else {
     error.value = result.message;
   }
@@ -50,10 +52,10 @@ const submit = async () => {
 <template>
   <main class="flex min-h-dvh items-center justify-center px-6 py-16">
     <form class="w-full max-w-sm" novalidate @submit.prevent="submit">
-      <h1 class="text-3xl font-medium">
+      <h1 class="font-medium">
         {{ mode === AuthMode.Login ? "Log in" : "Sign up" }}
       </h1>
-      <p class="mt-2 text-sm text-muted-foreground">
+      <p class="mt-2 text-caption text-muted-foreground">
         {{ mode === AuthMode.Login ? "The night is waiting." : "One account, every night." }}
       </p>
 
@@ -68,21 +70,22 @@ const submit = async () => {
         />
       </div>
 
-      <p v-if="error" role="alert" class="mt-4 text-sm text-destructive">{{ error }}</p>
+      <p v-if="error" role="alert" class="mt-4 text-caption text-destructive">{{ error }}</p>
 
       <Button type="submit" :disabled="pending" class="mt-8 w-full">
         {{ mode === AuthMode.Login ? "Log in" : "Create account" }}
       </Button>
 
-      <button
+      <Button
         type="button"
-        class="mt-4 w-full text-sm text-muted-foreground transition hover:text-foreground"
+        :variant="ButtonVariant.LINK"
+        class="mt-6 block w-full text-center"
         @click="toggleMode"
       >
         {{
           mode === AuthMode.Login ? "No account yet? Sign up" : "Already have an account? Log in"
         }}
-      </button>
+      </Button>
     </form>
   </main>
 </template>

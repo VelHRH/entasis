@@ -26,11 +26,17 @@ layer(TestServerLive, { excludeTestServices: true })("rooms", (it) => {
       const room = yield* alice.rooms.upsert({ payload: { name: "Neon Room" } });
       expect(room.name).toBe("Neon Room");
 
+      // Before joining, the list reports the room as not joined for alice.
       const listed = yield* alice.rooms.list();
-      expect(listed.some((r) => r.id === room.id)).toBe(true);
+      expect(listed.find((r) => r.id === room.id)?.joined).toBe(false);
 
       yield* alice.rooms.join({ payload: { id: room.id } });
       yield* bob.rooms.join({ payload: { id: room.id } });
+
+      // After joining, the same list now reports it as joined — this is what
+      // hides the Join button on the client.
+      const afterJoin = yield* alice.rooms.list();
+      expect(afterJoin.find((r) => r.id === room.id)?.joined).toBe(true);
 
       // Both members see each other — the two-users-in-a-room requirement.
       const members = yield* alice.rooms.members({ path: { roomId: room.id } });

@@ -10,3 +10,9 @@ export class Room extends Schema.Class<Room>("Room")({
   createdAt: Schema.DateTimeUtc,
   updatedAt: Schema.DateTimeUtc,
 }) {}
+
+// A listed room plus whether the requesting user has joined it (per-viewer).
+export class RoomListItem extends Schema.Class<RoomListItem>("RoomListItem")({
+  ...Room.fields,
+  joined: Schema.Boolean,
+}) {}
