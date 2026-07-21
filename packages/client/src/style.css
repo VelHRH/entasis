@@ -11,3 +11,19 @@
 body {
   @apply bg-background text-foreground font-sans antialiased;
 }
+
+/* Type defaults per tag; text utilities still override (base layer). */
+@layer base {
+  body {
+    @apply text-body;
+  }
+  h1 {
+    @apply text-h1;
+  }
+  h2 {
+    @apply text-h2;
+  }
+  h3 {
+    @apply text-h3;
+  }
+}

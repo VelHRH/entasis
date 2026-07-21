@@ -1,4 +1,4 @@
-import type { Room } from "@entasis/domain/room/schema";
+import type { RoomListItem } from "@entasis/domain/room/schema";
 import { RoomId } from "@entasis/domain/room/schema";
 import type { User } from "@entasis/domain/user/schema";
 import { Effect, Schema } from "effect";
@@ -10,6 +10,8 @@ import { err, ok, runApi } from "@/lib/api-client";
 export interface RoomView {
   readonly id: string;
   readonly name: string;
+  // Whether the current user has already joined this room.
+  readonly joined: boolean;
 }
 
 export interface RoomMember {
@@ -24,7 +26,11 @@ export type MembersView =
   | { readonly joined: true; readonly members: ReadonlyArray<RoomMember> }
   | { readonly joined: false };
 
-const toRoomView = (room: Room): RoomView => ({ id: room.id, name: room.name });
+const toRoomView = (room: RoomListItem): RoomView => ({
+  id: room.id,
+  name: room.name,
+  joined: room.joined,
+});
 
 const toRoomMember = (user: User): RoomMember => ({ id: user.id, email: user.email });
 
@@ -40,7 +46,8 @@ export const listRooms = (): Promise<ApiResult<ReadonlyArray<RoomView>>> =>
 export const createRoom = (name: string): Promise<ApiResult<RoomView>> =>
   runApi((client) =>
     client.rooms.upsert({ payload: { name } }).pipe(
-      Effect.map((room) => ok(toRoomView(room))),
+      // Creating a room does not join it, so it starts un-joined.
+      Effect.map((room) => ok<RoomView>({ id: room.id, name: room.name, joined: false })),
       Effect.catchAll(() => Effect.succeed(err("Couldn't create the room, try again"))),
     ),
   );

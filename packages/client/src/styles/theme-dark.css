@@ -34,16 +34,12 @@
   /* elevation — deep ambient + 1px top inner highlight (dark-theme physics:
      black blurs vanish on near-black, the lit top edge reads as height).
      A light theme would swap these for conventional directional shadows. */
-  --elevation-xs: 0 1px 2px 0 oklch(0 0 0 / 0.45);
   --elevation-sm:
     inset 0 1px 0 0 oklch(1 0 0 / 0.04), 0 1px 2px oklch(0 0 0 / 0.5),
     0 2px 8px -2px oklch(0 0 0 / 0.4);
   --elevation-md:
     inset 0 1px 0 0 oklch(1 0 0 / 0.05), 0 2px 4px oklch(0 0 0 / 0.5),
     0 8px 24px -4px oklch(0 0 0 / 0.45);
-  --elevation-lg:
-    inset 0 1px 0 0 oklch(1 0 0 / 0.06), 0 4px 8px oklch(0 0 0 / 0.5),
-    0 16px 48px -8px oklch(0 0 0 / 0.5);
   /* the one permitted neon moment: primary CTA focus/hover only */
   --glow: 0 0 0 1px oklch(0.8 0.17 160 / 0.25), 0 0 24px -4px oklch(0.8 0.17 160 / 0.35);
 }

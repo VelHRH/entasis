@@ -1,5 +1,5 @@
 import type { NotRoomMemberError, RoomNotFoundError } from "@entasis/domain/room/errors";
-import type { Room, RoomId } from "@entasis/domain/room/schema";
+import type { Room, RoomId, RoomListItem } from "@entasis/domain/room/schema";
 import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
 import type { User, UserId } from "@entasis/domain/user/schema";
 import * as Context from "effect/Context";
@@ -11,7 +11,7 @@ import type * as Effect from "effect/Effect";
 export class RoomsService extends Context.Tag("RoomsService")<
   RoomsService,
   {
-    readonly list: () => Effect.Effect<ReadonlyArray<Room>>;
+    readonly list: (requesterId: UserId) => Effect.Effect<ReadonlyArray<RoomListItem>>;
     readonly upsert: (input: UpsertRoomPayload) => Effect.Effect<Room, RoomNotFoundError>;
     readonly delete: (id: RoomId) => Effect.Effect<void, RoomNotFoundError>;
     readonly join: (

@@ -4,7 +4,7 @@ import * as SqlClient from "@effect/sql/SqlClient";
 import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
 import { RoomNotFoundError } from "@entasis/domain/room/errors";
-import { Room, RoomId } from "@entasis/domain/room/schema";
+import { Room, RoomId, RoomListItem } from "@entasis/domain/room/schema";
 import { User, UserId } from "@entasis/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
@@ -19,15 +19,19 @@ export const RoomsRepoLive = Layer.effect(
   Effect.gen(function*() {
     const sql = yield* SqlClient.SqlClient;
 
-    const findAll = SqlSchema.findAll({
-      Result: Room, // TODO: Effect schema is not in sync with the database schema, since we are not using ORM. So we will need some integration tests to ensure that the schema is correct.
-      Request: Schema.Void,
-      execute: () =>
+    // `joined` is a LEFT JOIN against the requester's membership.
+    const findAllForUser = SqlSchema.findAll({
+      Result: RoomListItem, // TODO: schema is not verified against the DB (no ORM); needs integration tests.
+      Request: UserId,
+      execute: (userId) =>
         sql`
         SELECT
-          *
+          r.*,
+          rm.user_id IS NOT NULL AS joined
         FROM
-          rooms
+          rooms r
+          LEFT JOIN room_members rm ON rm.room_id = r.id
+          AND rm.user_id = ${userId}
       `,
     });
 
@@ -121,7 +125,7 @@ export const RoomsRepoLive = Layer.effect(
     });
 
     return {
-      findAll: flow(findAll, Effect.orDie),
+      findAllForUser: flow(findAllForUser, Effect.orDie),
       delete: (id: RoomId) =>
         del(id).pipe(
           Effect.asVoid,

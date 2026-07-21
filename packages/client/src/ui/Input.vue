@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <label class="block">
-    <span class="mb-2 block text-sm text-muted-foreground">{{ label }}</span>
+    <span class="mb-2 block text-caption text-muted-foreground">{{ label }}</span>
     <input
       v-model="model"
       :type="type ?? 'text'"

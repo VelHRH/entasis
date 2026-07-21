@@ -37,3 +37,4 @@ any row links to a missing file). Steps 3–4 need judgment and rest on review.
 | [0002](./0002-client-feature-modules-layout.md) | Client source is organized by feature module | client | accepted |
 | [0003](./0003-absolute-imports-no-parent-relative.md) | Absolute imports — parent-relative paths are banned | repo | accepted |
 | [0004](./0004-string-enums-for-fixed-value-sets.md) | Fixed value sets are string enums, not literal unions | repo | accepted |
+| [0005](./0005-file-naming-kebab-case-pascalcase-vue.md) | File naming — kebab-case, PascalCase for Vue SFCs | client, server, domain | accepted |

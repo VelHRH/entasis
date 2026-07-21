@@ -68,6 +68,10 @@ Standing rules to apply to all new code. The *why* is in the linked ADR.
   (`enum AuthMode { Login = "login" }`). Discriminated shapes carrying different
   payloads (e.g. `ApiResult`, tagged errors) stay unions.
   ([ADR-0004](./docs/adr/0004-string-enums-for-fixed-value-sets.md))
+- **File naming (TS packages).** kebab-case files; Vue SFCs are PascalCase. A
+  component with companion files gets its own folder; no barrel `index.ts` on
+  the client (server/domain keep their module `index.ts`). Native packages are
+  out of scope. ([ADR-0005](./docs/adr/0005-file-naming-kebab-case-pascalcase-vue.md))
 
 ## Decisions
 

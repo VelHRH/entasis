@@ -34,6 +34,16 @@ it is a value set (enum).
 Consequently, `erasableSyntaxOnly` must go: #18 removes it from the client
 tsconfigs alongside the union migration.
 
+Both keys and values of the enum should be always the same and uppercase like this:
+
+```typescript
+export enum ButtonVariant {
+  PRIMARY = "PRIMARY",
+  SECONDARY = "SECONDARY",
+  LINK = "LINK",
+}
+```
+
 ## Alternatives considered
 
 ### String-literal unions (status quo, community default)

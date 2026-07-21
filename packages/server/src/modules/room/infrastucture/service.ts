@@ -12,7 +12,7 @@ export const RoomsServiceLive = Layer.effect(RoomsService)(
   Effect.gen(function*() {
     const repo = yield* RoomsRepo;
 
-    const list = () => repo.findAll();
+    const list = (requesterId: UserId) => repo.findAllForUser(requesterId);
 
     const upsert = (payload: UpsertRoomPayload) =>
       Effect.gen(function*() {
