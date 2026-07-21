@@ -44,6 +44,17 @@ jobs:
         uses: ./.github/actions/setup
       - run: pnpm build
 
+  adr:
+    name: ADR index
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-adr-index.mjs
+
   test:
     name: Test
     runs-on: ubuntu-latest
