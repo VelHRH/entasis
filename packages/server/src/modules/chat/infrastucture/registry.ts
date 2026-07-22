@@ -1,6 +1,6 @@
 import { ConnectionRegistry } from "#modules/chat/domain/registry.js";
-import type { ServerEvent } from "@entasis/domain/chat/protocol";
-import type { UserId } from "@entasis/domain/user/schema";
+import type { ServerEvent } from "@landline/domain/chat/protocol";
+import type { UserId } from "@landline/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as HashMap from "effect/HashMap";
 import * as Layer from "effect/Layer";

@@ -1,5 +1,5 @@
-import type { AuthResponse } from "@entasis/domain/user/credentials";
-import { CredentialsPayload } from "@entasis/domain/user/credentials";
+import type { AuthResponse } from "@landline/domain/user/credentials";
+import { CredentialsPayload } from "@landline/domain/user/credentials";
 import { Effect, Redacted } from "effect";
 import type { ApiClient, ApiResult } from "@/lib/api-client";
 import { err, ok, runApi } from "@/lib/api-client";

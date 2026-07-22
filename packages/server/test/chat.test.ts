@@ -1,5 +1,5 @@
 import { expect, layer } from "@effect/vitest";
-import { CredentialsPayload } from "@entasis/domain/user/credentials";
+import { CredentialsPayload } from "@landline/domain/user/credentials";
 import { Effect, Redacted } from "effect";
 import { makeApiClient, TestServerLive } from "./harness.js";
 

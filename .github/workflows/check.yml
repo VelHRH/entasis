@@ -65,7 +65,7 @@ jobs:
       database:
         image: postgres:16-alpine
         env:
-          POSTGRES_DB: entasis
+          POSTGRES_DB: landline
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
         ports:

@@ -8,8 +8,8 @@
     "customConditions": ["development"],
     // No baseUrl (deprecated in TS 6): paths resolve relative to this file.
     "paths": {
-      "@entasis/domain": ["../domain/src/index.js"],
-      "@entasis/domain/*": ["../domain/src/*.js"]
+      "@landline/domain": ["../domain/src/index.js"],
+      "@landline/domain/*": ["../domain/src/*.js"]
     }
   }
 }

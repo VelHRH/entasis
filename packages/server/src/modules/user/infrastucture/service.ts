@@ -1,9 +1,9 @@
 import { AuthResult } from "#modules/user/domain/dto/auth-result.js";
 import { SessionsRepo, UsersRepo } from "#modules/user/domain/repo.js";
 import { AuthService, SESSION_TTL } from "#modules/user/domain/service.js";
-import type { CredentialsPayload } from "@entasis/domain/user/credentials";
-import { InvalidCredentialsError, UnauthorizedError } from "@entasis/domain/user/errors";
-import { User, type UserId } from "@entasis/domain/user/schema";
+import type { CredentialsPayload } from "@landline/domain/user/credentials";
+import { InvalidCredentialsError, UnauthorizedError } from "@landline/domain/user/errors";
+import { User, type UserId } from "@landline/domain/user/schema";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";

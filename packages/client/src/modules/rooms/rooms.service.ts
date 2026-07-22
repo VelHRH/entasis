@@ -1,6 +1,6 @@
-import type { RoomListItem } from "@entasis/domain/room/schema";
-import { RoomId } from "@entasis/domain/room/schema";
-import type { User } from "@entasis/domain/user/schema";
+import type { RoomListItem } from "@landline/domain/room/schema";
+import { RoomId } from "@landline/domain/room/schema";
+import type { User } from "@landline/domain/user/schema";
 import { Effect, Schema } from "effect";
 import type { ApiResult } from "@/lib/api-client";
 import { err, ok, runApi } from "@/lib/api-client";

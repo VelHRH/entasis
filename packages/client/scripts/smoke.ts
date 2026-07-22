@@ -1,9 +1,9 @@
-// Smoke-tests the contract: derives a typed client from @entasis/domain and
+// Smoke-tests the contract: derives a typed client from @landline/domain and
 // round-trips against a running dev server (pnpm dev:server). Verifies both the
 // success path (AuthResponse decode) and the tagged-error path
 // (InvalidCredentialsError decode).
 import { FetchHttpClient, HttpApiClient } from "@effect/platform";
-import { Api, CredentialsPayload } from "@entasis/domain";
+import { Api, CredentialsPayload } from "@landline/domain";
 import { Effect, Redacted } from "effect";
 
 const baseUrl = process.env.API_URL ?? "http://localhost:3222";

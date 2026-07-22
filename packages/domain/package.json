@@ -1,13 +1,13 @@
 {
-  "name": "@entasis/domain",
+  "name": "@landline/domain",
   "version": "0.0.0",
   "type": "module",
   "private": true,
   "license": "MIT",
-  "description": "Entasis shared contract: HTTP API definition, schemas, DTOs, errors, WS protocol",
+  "description": "Landline shared contract: HTTP API definition, schemas, DTOs, errors, WS protocol",
   "repository": {
     "type": "git",
-    "url": "https://github.com/VelHRH/entasis",
+    "url": "https://github.com/VelHRH/landline",
     "directory": "packages/domain"
   },
   "exports": {

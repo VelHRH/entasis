@@ -15,8 +15,8 @@ of exception a reader would otherwise second-guess.
 
 ## Decision
 
-Applies to the **TypeScript packages** — `@entasis/client`, `@entasis/server`,
-`@entasis/domain`.
+Applies to the **TypeScript packages** — `@landline/client`, `@landline/server`,
+`@landline/domain`.
 
 - **Files are kebab-case** — `chat-socket.service.ts`, `button-config.ts`,
   `pg-client.ts`.

@@ -3,9 +3,9 @@ import { AddRoomMemberInput, CreateRoomInput, RoomsRepo, UpdateRoomInput } from 
 import * as SqlClient from "@effect/sql/SqlClient";
 import type * as SqlError from "@effect/sql/SqlError";
 import * as SqlSchema from "@effect/sql/SqlSchema";
-import { RoomNotFoundError } from "@entasis/domain/room/errors";
-import { Room, RoomId, RoomListItem } from "@entasis/domain/room/schema";
-import { User, UserId } from "@entasis/domain/user/schema";
+import { RoomNotFoundError } from "@landline/domain/room/errors";
+import { Room, RoomId, RoomListItem } from "@landline/domain/room/schema";
+import { User, UserId } from "@landline/domain/user/schema";
 import * as Effect from "effect/Effect";
 import { flow } from "effect/Function";
 import * as Layer from "effect/Layer";

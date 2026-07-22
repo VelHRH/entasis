@@ -2,7 +2,7 @@ import {
   ClientEvent,
   ClientEventFromJson,
   ServerEventFromJson,
-} from "@entasis/domain/chat/protocol";
+} from "@landline/domain/chat/protocol";
 import { Either, Schema } from "effect";
 import type { MessageView } from "./chat.service";
 import { toMessageView } from "./chat.service";

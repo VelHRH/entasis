@@ -1,5 +1,5 @@
-import type { EmailAlreadyInUseError } from "@entasis/domain/user/errors";
-import { User, type UserId } from "@entasis/domain/user/schema";
+import type { EmailAlreadyInUseError } from "@landline/domain/user/errors";
+import { User, type UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";

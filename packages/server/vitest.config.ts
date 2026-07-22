@@ -21,8 +21,8 @@ export default defineConfig({
   },
   resolve: {
     alias: {
-      "@entasis/server/test": path.join(__dirname, "test"),
-      "@entasis/server": path.join(__dirname, "src"),
+      "@landline/server/test": path.join(__dirname, "test"),
+      "@landline/server": path.join(__dirname, "src"),
     },
   },
 });

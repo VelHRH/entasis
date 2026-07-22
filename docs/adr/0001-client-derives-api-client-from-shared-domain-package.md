@@ -11,9 +11,9 @@ tagged API errors, and a WebSocket protocol with JSON codecs. The Vue client
 (#1) needs to talk to that API. The question is how the client obtains a typed
 view of the contract, and how drift between server and client is detected.
 
-We extracted the contract into `@entasis/domain`, a package with no node-only
+We extracted the contract into `@landline/domain`, a package with no node-only
 dependencies (only `effect` and `@effect/platform`), consumed by both
-`@entasis/server` and `@entasis/client` via the pnpm workspace.
+`@landline/server` and `@landline/client` via the pnpm workspace.
 
 ## Decision
 
@@ -53,8 +53,8 @@ directly.
 
 ## Consequences
 
-- Contract changes in `@entasis/domain` break the client build immediately —
-  verified by hand: renaming `User.email` fails `@entasis/client` type-check
+- Contract changes in `@landline/domain` break the client build immediately —
+  verified by hand: renaming `User.email` fails `@landline/client` type-check
   in `scripts/smoke.ts` (TS2339).
 - `effect` and `@effect/platform` become frontend runtime dependencies, which
   costs bundle size but buys Schema decoding, tagged errors, and structured

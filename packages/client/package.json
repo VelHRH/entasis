@@ -1,5 +1,5 @@
 {
-  "name": "@entasis/client",
+  "name": "@landline/client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -14,7 +14,7 @@
   },
   "dependencies": {
     "@effect/platform": "^0.96.2",
-    "@entasis/domain": "workspace:^",
+    "@landline/domain": "workspace:^",
     "@fontsource-variable/space-grotesk": "^5.2.10",
     "@fontsource/space-mono": "^5.2.9",
     "@tailwindcss/vite": "^4.3.2",

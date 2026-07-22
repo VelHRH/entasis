@@ -1,9 +1,9 @@
-import type { ChatNotFoundError } from "@entasis/domain/chat/errors";
-import type { OpenChatPayload } from "@entasis/domain/chat/open-chat";
-import type { SendMessage } from "@entasis/domain/chat/protocol";
-import type { Chat, ChatId, ChatSummary, Message } from "@entasis/domain/chat/schema";
-import type { NotRoomMemberError } from "@entasis/domain/room/errors";
-import type { UserId } from "@entasis/domain/user/schema";
+import type { ChatNotFoundError } from "@landline/domain/chat/errors";
+import type { OpenChatPayload } from "@landline/domain/chat/open-chat";
+import type { SendMessage } from "@landline/domain/chat/protocol";
+import type { Chat, ChatId, ChatSummary, Message } from "@landline/domain/chat/schema";
+import type { NotRoomMemberError } from "@landline/domain/room/errors";
+import type { UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 

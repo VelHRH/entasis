@@ -1,5 +1,5 @@
 {
-  "name": "entasis",
+  "name": "landline",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@10.14.0",
@@ -9,9 +9,9 @@
     "check": "pnpm -r run check",
     "test": "pnpm -r run test",
     "lint": "pnpm -r run lint",
-    "dev:server": "pnpm --filter @entasis/server dev",
-    "dev:client": "pnpm --filter @entasis/client dev",
-    "dev": "pnpm --parallel --filter @entasis/server --filter @entasis/client run dev"
+    "dev:server": "pnpm --filter @landline/server dev",
+    "dev:client": "pnpm --filter @landline/client dev",
+    "dev": "pnpm --parallel --filter @landline/server --filter @landline/client run dev"
   },
   "devDependencies": {
     "only-allow": "^1.2.2"

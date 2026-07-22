@@ -1,5 +1,5 @@
-import type { ServerEvent } from "@entasis/domain/chat/protocol";
-import type { UserId } from "@entasis/domain/user/schema";
+import type { ServerEvent } from "@landline/domain/chat/protocol";
+import type { UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as Scope from "effect/Scope";
