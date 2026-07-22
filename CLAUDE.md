@@ -1,4 +1,4 @@
-# Entasis
+# Landline
 
 Anonymous, event-based dating — a weekly, city-scoped chat night where people
 talk in short anonymous rounds and reveal photos only by mutual consent. This
@@ -19,21 +19,21 @@ Four docs, four jobs — keep each to its own:
 TypeScript throughout, running on **Effect** (v3) and **Node 22**, in a **pnpm
 workspace** (`pnpm@10`, `only-allow pnpm`). Three packages:
 
-- **`@entasis/domain`** — the shared contract: the Effect `HttpApi` definition,
+- **`@landline/domain`** — the shared contract: the Effect `HttpApi` definition,
   Schemas with branded IDs, DTOs, tagged errors, and the WebSocket protocol.
   No node-only dependencies (`tsconfig` compiles with `"types": []`); only
   `effect` and `@effect/platform`. Single source of truth for both other packages.
-- **`@entasis/server`** — backend. Effect + `@effect/platform-node` +
+- **`@landline/server`** — backend. Effect + `@effect/platform-node` +
   `@effect/sql-pg` (Postgres). NodeNext ESM, compiled by `tsc` then babel.
   Effect is used throughout.
-- **`@entasis/client`** — Vue 3 + Vite + Pinia + Tailwind v4. Derives its typed
-  API client from `@entasis/domain` (ADR-0001). Effect is **confined** to
+- **`@landline/client`** — Vue 3 + Vite + Pinia + Tailwind v4. Derives its typed
+  API client from `@landline/domain` (ADR-0001). Effect is **confined** to
   `*.service.ts` files and `lib/` (see Conventions).
 
 **Direction:** a native mobile client (Swift for iOS, Kotlin for Android) is
 planned. Being native, it can't derive the contract in-process like the web
 client — it will consume the API through the **OpenAPI export** of the same
-`HttpApi`. This is why `@entasis/domain` stays a strict, node-free contract
+`HttpApi`. This is why `@landline/domain` stays a strict, node-free contract
 package and why ADR-0001 deliberately keeps the OpenAPI path open. Don't
 "simplify" either away.
 
@@ -45,7 +45,7 @@ Run from the repo root:
 - `pnpm check` — type-check all packages
 - `pnpm test` — run all package tests
 - `pnpm lint` — lint all packages. **Note:** the all-package form can OOM; prefer
-  `pnpm --filter <pkg> lint` (e.g. `pnpm --filter @entasis/server lint`). CI runs a Lint job, so lint before pushing.
+  `pnpm --filter <pkg> lint` (e.g. `pnpm --filter @landline/server lint`). CI runs a Lint job, so lint before pushing.
 - `pnpm dev` — run server + client in parallel; `pnpm dev:server` / `pnpm dev:client` individually.
 
 ## Conventions

@@ -1,7 +1,7 @@
-import type { NotRoomMemberError, RoomNotFoundError } from "@entasis/domain/room/errors";
-import type { Room, RoomId, RoomListItem } from "@entasis/domain/room/schema";
-import type { UpsertRoomPayload } from "@entasis/domain/room/upsert";
-import type { User, UserId } from "@entasis/domain/user/schema";
+import type { NotRoomMemberError, RoomNotFoundError } from "@landline/domain/room/errors";
+import type { Room, RoomId, RoomListItem } from "@landline/domain/room/schema";
+import type { UpsertRoomPayload } from "@landline/domain/room/upsert";
+import type { User, UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 

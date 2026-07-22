@@ -1,4 +1,4 @@
-import { User } from "@entasis/domain/user/schema";
+import { User } from "@landline/domain/user/schema";
 import * as Schema from "effect/Schema";
 
 // Internal result of a successful sign-up/login: the session token plus the

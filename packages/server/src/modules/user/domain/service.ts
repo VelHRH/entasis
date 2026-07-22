@@ -1,6 +1,6 @@
-import type { CredentialsPayload } from "@entasis/domain/user/credentials";
-import type { EmailAlreadyInUseError, InvalidCredentialsError, UnauthorizedError } from "@entasis/domain/user/errors";
-import type { User, UserId } from "@entasis/domain/user/schema";
+import type { CredentialsPayload } from "@landline/domain/user/credentials";
+import type { EmailAlreadyInUseError, InvalidCredentialsError, UnauthorizedError } from "@landline/domain/user/errors";
+import type { User, UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import * as Duration from "effect/Duration";
 import type * as Effect from "effect/Effect";

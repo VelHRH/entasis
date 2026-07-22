@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-The log of architecture decisions for Entasis. Each ADR is an immutable,
+The log of architecture decisions for Landline. Each ADR is an immutable,
 numbered record of one decision — its context, the alternatives, and the
 consequences. Superseded records stay in place (struck through below) rather
 than being deleted.

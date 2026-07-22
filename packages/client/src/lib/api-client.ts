@@ -1,5 +1,5 @@
 import { HttpApiClient } from "@effect/platform";
-import { Api } from "@entasis/domain";
+import { Api } from "@landline/domain";
 import { Effect } from "effect";
 import { effectRunner } from "./effect-runner";
 

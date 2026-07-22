@@ -1,6 +1,6 @@
-import { Chat, type ChatId, type ChatSummary, Message } from "@entasis/domain/chat/schema";
-import type { RoomId } from "@entasis/domain/room/schema";
-import type { UserId } from "@entasis/domain/user/schema";
+import { Chat, type ChatId, type ChatSummary, Message } from "@landline/domain/chat/schema";
+import type { RoomId } from "@landline/domain/room/schema";
+import type { UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import type * as Option from "effect/Option";

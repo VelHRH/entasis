@@ -1,6 +1,6 @@
-import { OpenChatPayload } from "@entasis/domain/chat/open-chat";
-import type { ChatSummary, Message } from "@entasis/domain/chat/schema";
-import { ChatId } from "@entasis/domain/chat/schema";
+import { OpenChatPayload } from "@landline/domain/chat/open-chat";
+import type { ChatSummary, Message } from "@landline/domain/chat/schema";
+import { ChatId } from "@landline/domain/chat/schema";
 import { DateTime, Effect, Schema } from "effect";
 import type { ApiResult } from "@/lib/api-client";
 import { err, ok, runApi } from "@/lib/api-client";

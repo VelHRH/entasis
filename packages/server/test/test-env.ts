@@ -1,6 +1,6 @@
 // Connection settings for the api-seam tests. Defaults match the
 // docker-compose Postgres; override via environment when needed.
-export const TEST_DATABASE_NAME = "entasis_test";
+export const TEST_DATABASE_NAME = "landline_test";
 
 const host = process.env.TEST_DATABASE_HOST ?? "localhost:5433";
 const credentials = process.env.TEST_DATABASE_CREDENTIALS ?? "postgres:postgres";

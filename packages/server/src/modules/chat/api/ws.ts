@@ -7,8 +7,8 @@ import {
   EventRejected,
   type ServerEvent,
   ServerEventFromJson,
-} from "@entasis/domain/chat/protocol";
-import type { User } from "@entasis/domain/user/schema";
+} from "@landline/domain/chat/protocol";
+import type { User } from "@landline/domain/user/schema";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import * as Schema from "effect/Schema";

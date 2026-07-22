@@ -1,7 +1,7 @@
-import type { RoomNotFoundError } from "@entasis/domain/room/errors";
-import { Room, RoomId, type RoomListItem } from "@entasis/domain/room/schema";
-import type { User } from "@entasis/domain/user/schema";
-import { UserId } from "@entasis/domain/user/schema";
+import type { RoomNotFoundError } from "@landline/domain/room/errors";
+import { Room, RoomId, type RoomListItem } from "@landline/domain/room/schema";
+import type { User } from "@landline/domain/user/schema";
+import { UserId } from "@landline/domain/user/schema";
 import * as Context from "effect/Context";
 import type * as Effect from "effect/Effect";
 import * as Schema from "effect/Schema";

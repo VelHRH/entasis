@@ -1,4 +1,4 @@
-# Entasis — Ubiquitous Language
+# Landline — Ubiquitous Language
 
 Glossary of domain terms. Definitions only — no implementation details.
 See `MVP.md` for the full product specification.

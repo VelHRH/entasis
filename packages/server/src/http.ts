@@ -1,5 +1,5 @@
 import { HttpLayerRouter, HttpServerResponse } from "@effect/platform";
-import { Api } from "@entasis/domain/api";
+import { Api } from "@landline/domain/api";
 import { Layer } from "effect";
 import { ChatModuleLive, ChatWsModuleLive } from "./modules/chat/index.js";
 import { RoomsModuleLive } from "./modules/room/index.js";

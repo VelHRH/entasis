@@ -1,8 +1,8 @@
-# Entasis — MVP Specification
+# Landline — MVP Specification
 
-> Working title: **Entasis** (public brand TBD — "Landline" is the leading candidate;
-> `landline.dating`, `landline.date`, `landline.chat` were available as of 2026-07-04.
-> Run EUIPO trademark check + app store collision check before committing.)
+> The product name is **Landline**. Domains `landline.dating`, `landline.date`,
+> and `landline.chat` were available as of 2026-07-04; run an EUIPO trademark
+> check + app-store collision check before public launch.
 
 ## 1. Concept
 
@@ -36,7 +36,7 @@ traps. Every MVP mechanic below exists to counter one of them:
 ### 2.1 The weekly event
 - One event per city per week: **Thursday 20:00 local time** (weekday beats weekend:
   our target users are *out* on Fri/Sat; Thursday sets up the weekend date).
-- Same slot everywhere — "Thursday night is Entasis night" is the brand ritual.
+- Same slot everywhere — "Thursday night is Landline night" is the brand ritual.
   Cities run in their own local time; rooms never mix across cities.
 - Verified users reserve a spot during the week. Event room opens at 20:00.
 - Target room size at launch: **30–60 people**, balanced by gender/orientation
@@ -142,8 +142,5 @@ traps. Every MVP mechanic below exists to counter one of them:
 - One combined post-round question vs. separate *keep talking* / *reveal*
 - Age bracket boundaries for room composition
 - Weekday: Thursday vs. Sunday evening
-- Public brand name — test 3–4 finalists (Landline, Mixtape, Slowdance, Penpal…)
-  on target users in Vilnius / Kyiv / Berlin: say it aloud once, ask them to
-  spell it. Register shortlist domains early; check EUIPO classes 9/45.
 - First-city selection and the first-200-users channel — **the actual
   make-or-break question**, worth a dedicated week before writing more code.
