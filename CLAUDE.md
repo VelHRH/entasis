@@ -72,6 +72,11 @@ Standing rules to apply to all new code. The *why* is in the linked ADR.
   component with companion files gets its own folder; no barrel `index.ts` on
   the client (server/domain keep their module `index.ts`). Native packages are
   out of scope. ([ADR-0005](./docs/adr/0005-file-naming-kebab-case-pascalcase-vue.md))
+- **Scheduled/background work is DB-driven and idempotent.** Time-triggered work
+  (e.g. composing rooms at an Event's cutoff) runs as a reconciliation worker —
+  a recurring fiber that reads due state from the DB and advances it via an
+  atomic status transition — not an in-memory per-item timer. Survives restarts;
+  poll granularity is a detail. ([ADR-0007](./docs/adr/0007-event-reservation-model.md))
 
 ## Decisions
 

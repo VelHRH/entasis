@@ -20,7 +20,9 @@ not erasable syntax — the flag makes every enum a compile error.
 
 A **fixed value set** — a closed list of named alternatives where a value is
 one of N known constants — is declared as a TypeScript **string enum**
-(`enum AuthMode { Login = "login", Signup = "signup" }`), in every package.
+(`enum AuthMode { LOGIN = "LOGIN", SIGNUP = "SIGNUP" }`), in every package.
+Keys and values are identical and uppercase (see the rule at the end of this
+section).
 
 **Discriminated shapes stay unions.** `ApiResult<A>` (ADR-0002) is the
 sanctioned example: its ok/err branches carry different fields, and the point
